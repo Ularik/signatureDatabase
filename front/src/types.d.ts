@@ -1,5 +1,5 @@
 export interface RowTable {
-    name: string;
-    country?: string;
-    dateDetermine: number
+    firstColumn: string;
+    secondColumn?: string;
+    thirdColumn: number
 }

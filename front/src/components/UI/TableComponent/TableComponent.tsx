@@ -7,14 +7,65 @@ import type { RowTable } from '../../../types';
 import { useLocation } from 'react-router';
 import UrlIcon from '../Icons/UrlIcon';
 import GppMaybeOutlinedIcon from "@mui/icons-material/GppMaybeOutlined";
+import DocIcon from '../Icons/DocIcon';
+import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
+import { Grid } from '@mui/material';
 
 
 interface Props {
   rows: RowTable[];
 }
 
-const TableComponent: React.FC<Props> = ({rows}) => {
+const TableComponent: React.FC<Props> = ({ rows }) => {
   const { pathname } = useLocation();
+
+  let titles = [
+    <Typography>
+      <IpIcon sx={{ marginRight: "10px" }} />
+      Ip-адресс
+    </Typography>,
+    <Typography>
+      <GeolocationIcon sx={{ marginRight: "10px" }} />
+      Страна
+    </Typography>,
+    <Typography>
+      <CalendarIcon sx={{ marginRight: "10px" }} />
+      Дата обнаружения
+    </Typography>,
+  ];
+
+  const titlesUrl = [
+    <Typography>
+      <UrlIcon sx={{ marginRight: "10px" }} />
+      url-адресс
+    </Typography>,
+
+    <Typography>
+      <CalendarIcon sx={{ marginRight: "10px" }} />
+      Дата обнаружения
+    </Typography>,
+  ];
+
+  const titleSignature = [
+    <Typography>
+      <GppMaybeOutlinedIcon sx={{ marginRight: "10px" }} />
+      Уязвимости (CVE)
+    </Typography>,
+    <Typography>
+      <DocIcon sx={{ marginRight: "10px" }} />
+      Сигнатура
+    </Typography>,
+    <Typography>
+      <CreateOutlinedIcon sx={{ marginRight: "8px" }} />
+      Описание
+    </Typography>,
+  ];
+
+    titles = pathname === "/black-list-url" 
+    ? titlesUrl 
+    : pathname === "/compromise-identity" 
+    ? titleSignature 
+    : titles
 
     return (
       <Box
@@ -27,64 +78,42 @@ const TableComponent: React.FC<Props> = ({rows}) => {
           color: "#FFFFFF",
         }}
       >
-        <Box
+        <Grid
+          container
+          spacing={3}
           id="title"
           paddingBlock={"15.84px"}
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
             paddingInline: "80px",
             background: "#283D5D",
           }}
         >
-          <Typography>
-            {pathname === "/black-list-url" ? (
-              <>
-                <UrlIcon sx={{ marginRight: "10px" }} />
-                url-адресс
-              </>
-            ) : (
-              <>
-                <IpIcon sx={{ marginRight: "10px" }} />
-                Ip-адресс
-              </>
-            )}
-          </Typography>
-          {pathname === "/black-list-ip" ? (
-            <Typography>
-              <GeolocationIcon sx={{ marginRight: "10px" }} />
-              Страна
-            </Typography>
-          ) : pathname === "/compromise-identity" ? (
-            <Typography>
-              <GeolocationIcon sx={{ marginRight: "10px" }} />
-              Сигнатура
-            </Typography>
-          ) : null}
-          <Typography>
-            <CalendarIcon sx={{ marginRight: "10px" }} />
-            Дата обнаружения
-          </Typography>
-        </Box>
+          {titles.map((title) => (
+            <Grid
+              size={pathname === "/black-list-url" ? 6 : 4}
+              justifyItems={"center"}
+            >
+              {title}
+            </Grid>
+          ))}
+        </Grid>
 
         {rows.map((row) => (
-          <Box
+          <Grid
+            container
+            spacing={3}
             sx={{
               paddingBlock: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
               paddingInline: "80px",
               borderBlock: "1px solid #486084",
             }}
           >
-            <Typography>{row.name}</Typography>
-            {row.country ? <Typography>{row.country}</Typography> : null}
-
-            <Typography width={"170px"} textAlign={"center"}>
-              {row.dateDetermine}
-            </Typography>
-          </Box>
+            {Object.values(row).map((value) => (
+              <Grid justifyItems={"center"} size={row.thirdColumn ? 4 : 6}>
+                <Typography>{value}</Typography>
+              </Grid>
+            ))}
+          </Grid>
         ))}
       </Box>
     );

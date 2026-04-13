@@ -6,20 +6,33 @@ import InputElement from "../components/UI/InputElement/InputElement";
 
 
 const BlackListIp = () => {
-  function createData(name: string, country: string, dateDetermine: number) {
-    return { name, country, dateDetermine };
-  }
 
   const rows = [
-    createData("146.70.189.43", "Нидерланды", 2024),
-    createData("146.70.189.43", "Кыргызская Республика", 2024),
-    createData("146.70.189.43", "Нидерланды", 2024),
-    createData("146.70.189.43", "Кыргызская Республика", 2024),
-    createData("146.70.189.43", "Кыргызская Республика", 2024),
-    createData("146.70.189.43", "Кыргызская Республика", 2024),
-    createData("146.70.189.43", "Нидерланды", 2024),
-    createData("146.70.189.43", "Кыргызская Республика", 2024),
-    createData("146.70.189.43", "Кыргызская Республика", 2024),
+    {
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: "Кыргызская Республика",
+      thirdColumn: 2024,
+    },
+    {
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: "Кыргызская Республика",
+      thirdColumn: 2024,
+    },
+    {
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: "Кыргызская Республика",
+      thirdColumn: 2024,
+    },
+    {
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: "Кыргызская Республика",
+      thirdColumn: 2024,
+    },
+    {
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: "Кыргызская Республика",
+      thirdColumn: 2024,
+    },
   ];
 
   return (

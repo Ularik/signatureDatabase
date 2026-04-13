@@ -9,44 +9,44 @@ const BlackListUrl = () => {
 
   const rows = [
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
     {
-      name: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      dateDetermine: 2024,
+      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
+      secondColumn: 2024,
     },
   ];
 

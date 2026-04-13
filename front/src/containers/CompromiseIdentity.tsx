@@ -5,20 +5,45 @@ import TableComponent from "../components/UI/TableComponent/TableComponent";
 import PaginationCustom from "../components/UI/Pagination/PaginationCustom";
 
 const CompromiseIdentity = () => {
-    function createData(name: string, country: string, dateDetermine: number) {
-      return { name, country, dateDetermine };
-    }
 
     const rows = [
-      createData("146.70.189.43", "Нидерланды", 2024),
-      createData("146.70.189.43", "Кыргызская Республика", 2024),
-      createData("146.70.189.43", "Нидерланды", 2024),
-      createData("146.70.189.43", "Кыргызская Республика", 2024),
-      createData("146.70.189.43", "Кыргызская Республика", 2024),
-      createData("146.70.189.43", "Кыргызская Республика", 2024),
-      createData("146.70.189.43", "Нидерланды", 2024),
-      createData("146.70.189.43", "Кыргызская Республика", 2024),
-      createData("146.70.189.43", "Кыргызская Республика", 2024),
+      {
+        firstColumn: "CVE-2019-7401",
+        secondColumn:
+          "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
+        thirdColumn: "Это критическая уязвимость удаленного",
+      },
+
+      {
+        firstColumn: "CVE-2019-7401",
+        secondColumn:
+          "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
+        thirdColumn: "Это критическая уязвимость удаленного",
+      },
+      {
+        firstColumn: "CVE-2019-7401",
+        secondColumn:
+          "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
+        thirdColumn: "Это критическая уязвимость удаленного",
+      },
+      {
+        firstColumn: "CVE-2019-7401",
+        secondColumn:
+          "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
+        thirdColumn: "Это критическая уязвимость удаленного",
+      },
+      {
+        firstColumn: "CVE-2019-7401",
+        secondColumn:
+          "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
+        thirdColumn: "Это критическая уязвимость удаленного",
+      },
+      {
+        firstColumn: "CVE-2019-7401",
+        secondColumn:
+          "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
+        thirdColumn: "Это критическая уязвимость удаленного",
+      },
     ];
 
   return (
