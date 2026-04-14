@@ -69,8 +69,8 @@ const NotAuthTable = () => {
           background: "#283D5D",
         }}
       >
-        {titleSignature.map((title) => (
-          <Grid size={4} justifyItems={"center"}>
+        {titleSignature.map((title, index) => (
+          <Grid size={4} key={index} justifyItems={"center"}>
             {title}
           </Grid>
         ))}

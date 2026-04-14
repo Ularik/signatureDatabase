@@ -85,7 +85,6 @@ interface Props {
 }
 
 const EnterWindow: React.FC<Props> = ({ isOpen, close }) => {
-  const handleClose = () => close();
 
   return (
     <div>
@@ -93,7 +92,7 @@ const EnterWindow: React.FC<Props> = ({ isOpen, close }) => {
         aria-labelledby="Enter account"
         aria-describedby="Enter account"
         open={isOpen}
-        onClose={handleClose}
+        onClose={() => close()}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -110,7 +109,7 @@ const EnterWindow: React.FC<Props> = ({ isOpen, close }) => {
           <Box sx={modalWindowStyle}>
             <Box sx={mainContentStyle}>
               <IconButton
-                onClick={handleClose}
+                onClick={() => close()}
                 sx={{ position: "absolute", top: "40px", right: "46px" }}
               >
                 <HighlightOffIcon

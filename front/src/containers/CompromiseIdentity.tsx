@@ -6,6 +6,7 @@ import PaginationCustom from "../components/UI/Pagination/PaginationCustom";
 import { selectUser } from "../components/user/store/userSelectors";
 import { useAppSelector } from "../app/hooks";
 import NotAuthTable from "../components/UI/NotAuthTable/NotAuthTable";
+import CompromiseTable from "../components/CompromiseTable/CompromiseTable";
 
 
 const CompromiseIdentity = () => {
@@ -13,6 +14,7 @@ const CompromiseIdentity = () => {
     console.log(user)
     const rows = [
       {
+        id: "1",
         firstColumn: "CVE-2019-7401",
         secondColumn:
           "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
@@ -20,30 +22,28 @@ const CompromiseIdentity = () => {
       },
 
       {
+        id: "2",
         firstColumn: "CVE-2019-7401",
         secondColumn:
           "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
         thirdColumn: "Это критическая уязвимость удаленного",
       },
       {
+        id: "3",
         firstColumn: "CVE-2019-7401",
         secondColumn:
           "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
         thirdColumn: "Это критическая уязвимость удаленного",
       },
       {
+        id: "4",
         firstColumn: "CVE-2019-7401",
         secondColumn:
           "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
         thirdColumn: "Это критическая уязвимость удаленного",
       },
       {
-        firstColumn: "CVE-2019-7401",
-        secondColumn:
-          "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
-        thirdColumn: "Это критическая уязвимость удаленного",
-      },
-      {
+        id: "5",
         firstColumn: "CVE-2019-7401",
         secondColumn:
           "SSTP_DUPLEX_POST /sra_{BA195980-CD49-458b-9E23-C84EE0ADCD75}/ HTTP/1.1 Host: 212.42.102.70 SSTPCORRE",
@@ -68,7 +68,7 @@ const CompromiseIdentity = () => {
       >
         <InputElement />
         {/* {user ? <TableComponent rows={rows} /> : <NotAuthTable />} */}
-        <NotAuthTable />
+        <CompromiseTable rows={rows} />
       </Box>
 
       {user && (

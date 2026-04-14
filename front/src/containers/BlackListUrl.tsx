@@ -1,53 +1,37 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import InputElement from "../components/UI/InputElement/InputElement";
-import TableComponent from "../components/UI/TableComponent/TableComponent";
 import PaginationCustom from "../components/UI/Pagination/PaginationCustom";
-
+import UrlTable from "../components/UrlTable/UrlTable";
 
 const BlackListUrl = () => {
 
   const rows = [
     {
+      id: "1",
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
+      secondColumn: "2024",
     },
     {
+      id: "2",
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
+      secondColumn: "2024",
     },
     {
+      id: "3",
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
+      secondColumn: "2024",
     },
     {
+      id: "4",
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
+      secondColumn: "2024",
     },
     {
+      id: "5",
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
-    },
-    {
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
-    },
-    {
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
-    },
-    {
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
-    },
-    {
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
-    },
-    {
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: '2024',
-    },
+      secondColumn: "2024",
+    }
   ];
 
 
@@ -65,12 +49,12 @@ const BlackListUrl = () => {
           padding={"7px 0 19px"}
           marginBottom={"13px"}
         >
-          <InputElement/>
+          <InputElement />
 
-          <TableComponent rows={rows} />
+          <UrlTable rows={rows} />
         </Box>
 
-        <Box marginLeft={'auto'}>
+        <Box marginLeft={"auto"}>
           <PaginationCustom total={55} />
         </Box>
       </Box>

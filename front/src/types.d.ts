@@ -1,8 +1,18 @@
 export interface RowTable {
+  id: string;
   firstColumn: string;
   secondColumn: string;
   thirdColumn?: string;
 }
+
+interface RowsCopy {
+  id: string;
+  firstColumn: string;
+  secondColumn: string;
+  thirdColumn?: string;
+  isCopy: boolean;
+}
+
 
 export interface User {
   _id: string;
@@ -39,4 +49,10 @@ export interface ValidationError {
   message: string;
   name: string;
   _message: string;
+}
+
+
+export interface CompromiseItem {
+  discription: string;
+  securityMeasures: string;
 }
