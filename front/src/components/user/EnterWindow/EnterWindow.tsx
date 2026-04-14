@@ -3,8 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { TextField, Typography, IconButton } from "@mui/material";
-import MainButton from "../Buttons/MainButton";
-import { useState } from "react";
+import MainButton from "../../UI/Buttons/MainButton";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 

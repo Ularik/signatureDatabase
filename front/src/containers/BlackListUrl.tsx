@@ -10,43 +10,43 @@ const BlackListUrl = () => {
   const rows = [
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: 2024,
+      secondColumn: '2024',
     },
   ];
 

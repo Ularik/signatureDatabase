@@ -11,27 +11,27 @@ const BlackListIp = () => {
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
       secondColumn: "Кыргызская Республика",
-      thirdColumn: 2024,
+      thirdColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
       secondColumn: "Кыргызская Республика",
-      thirdColumn: 2024,
+      thirdColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
       secondColumn: "Кыргызская Республика",
-      thirdColumn: 2024,
+      thirdColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
       secondColumn: "Кыргызская Республика",
-      thirdColumn: 2024,
+      thirdColumn: '2024',
     },
     {
       firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
       secondColumn: "Кыргызская Республика",
-      thirdColumn: 2024,
+      thirdColumn: '2024',
     },
   ];
 

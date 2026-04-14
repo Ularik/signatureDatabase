@@ -3,7 +3,7 @@ import BackLogo from './components/UI/BackLogo/BackLogo';
 import Home from './containers/Home';
 import BlackListIp from './containers/BlackListIp';
 import BlackListUrl from './containers/BlackListUrl';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import Header from './components/UI/Header/Header';
 import GlobalStyles from "@mui/material/GlobalStyles";
 import CompromiseIdentity from './containers/CompromiseIdentity';
@@ -36,6 +36,7 @@ const App = () => {
           <Route path="/black-list-ip" element={<BlackListIp />} />
           <Route path="/black-list-url" element={<BlackListUrl />} />
           <Route path="/compromise-identity" element={<CompromiseIdentity />} />
+          <Route path="*" element={<Typography>PAGE NOT FOUND</Typography>} />
         </Routes>
       </Container>
     </>

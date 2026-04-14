@@ -3,9 +3,14 @@ import { Box } from "@mui/material";
 import InputElement from "../components/UI/InputElement/InputElement";
 import TableComponent from "../components/UI/TableComponent/TableComponent";
 import PaginationCustom from "../components/UI/Pagination/PaginationCustom";
+import { selectUser } from "../components/user/store/userSelectors";
+import { useAppSelector } from "../app/hooks";
+import NotAuthTable from "../components/UI/NotAuthTable/NotAuthTable";
+
 
 const CompromiseIdentity = () => {
-
+    const user = useAppSelector(selectUser);
+    console.log(user)
     const rows = [
       {
         firstColumn: "CVE-2019-7401",
@@ -59,15 +64,18 @@ const CompromiseIdentity = () => {
         border={"1px solid #486084"}
         padding={"7px 0 19px"}
         marginBottom={"13px"}
+        position={"relative"}
       >
         <InputElement />
-
-        <TableComponent rows={rows} />
+        {/* {user ? <TableComponent rows={rows} /> : <NotAuthTable />} */}
+        <NotAuthTable />
       </Box>
 
-      <Box marginLeft={"auto"}>
-        <PaginationCustom total={55} />
-      </Box>
+      {user && (
+        <Box marginLeft={"auto"}>
+          <PaginationCustom total={55} />
+        </Box>
+      )}
     </Box>
   );
 };

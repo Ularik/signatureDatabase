@@ -11,7 +11,7 @@ import NavBar from "./NavBar";
 import { useLocation } from "react-router";
 import { useState } from "react";
 import { NavLink } from "react-router";
-import EnterWindow from "../EnterWindow/EnterWindow";
+import EnterWindow from "../../user/EnterWindow/EnterWindow";
 
 
 const LogoText = styled(Typography)({

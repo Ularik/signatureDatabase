@@ -11,6 +11,8 @@ import DocIcon from '../Icons/DocIcon';
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import { Grid } from '@mui/material';
 
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DoneIcon from "@mui/icons-material/Done";
 
 interface Props {
   rows: RowTable[];
@@ -99,21 +101,51 @@ const TableComponent: React.FC<Props> = ({ rows }) => {
         </Grid>
 
         {rows.map((row) => (
-          <Grid
-            container
-            spacing={3}
+          <Box
             sx={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "10px",
+              alignItems: "center",
               paddingBlock: "10px",
               paddingInline: "80px",
               borderBlock: "1px solid #486084",
+              transition: "0.3s",
+              cursor: "pointer",
+              "&:hover": {
+                background: "#283D5D",
+                "& .copy-icon": {
+                  opacity: 1,
+                  transform: "translateX(0)",
+                },
+              },
             }}
           >
             {Object.values(row).map((value) => (
-              <Grid justifyItems={"center"} size={row.thirdColumn ? 4 : 6}>
+              <Typography textAlign={"center"} sx={{ flex: 1 }}>
                 <Typography>{value}</Typography>
-              </Grid>
+              </Typography>
             ))}
-          </Grid>
+
+            <Typography
+              className="copy-icon"
+              sx={{
+                position: "absolute",
+                right: "10px",
+                fontSize: "14px",
+                color: "#fff",
+                opacity: 0, // Скрыта по умолчанию
+                transform: "translateX(-1px)", // Немного смещена для эффекта вылета
+                transition: "0.3s ease-in-out",
+              }}
+            >
+              Copy
+              <ContentCopyIcon
+                sx={{ height: "16px", width: "16px", marginLeft: "5px" }}
+              />
+            </Typography>
+          </Box>
         ))}
       </Box>
     );
