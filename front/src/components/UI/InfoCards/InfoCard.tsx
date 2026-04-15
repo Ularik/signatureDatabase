@@ -16,12 +16,12 @@ const InfoCard:React.FC<Props> = ({ title, navigate, text }) => {
       
       sx={{
         position: "relative",
-        padding: "10px 36px",
+        padding: {xs: "7px 70px 10px 15px", sm: "10px 20px", md: "10px 36px"},
         display: "flex",
         flexDirection: "column",
         gap: "13px",
-        maxWidth: "460px",
-        borderRadius: "40px",
+        maxWidth: {sm: "450px", md: "350px", lg: "460px"},
+        borderRadius: {xs: "10px", sm: "20px", md: "40px"},
         overflow: "hidden", // Чтобы градиент не вылезал за границы
         zIndex: 1,
 
@@ -60,14 +60,14 @@ const InfoCard:React.FC<Props> = ({ title, navigate, text }) => {
         <Box
           border={"4px solid #EF8422"}
           borderRadius={"10px"}
-          height={"49px"}
+          height={{xs: '30px', md: "49px"}}
         ></Box>
         <Typography
           display="flex"
           alignItems="center"
           fontFamily={"inherit"}
           color="#F9F9F9"
-          fontSize={"24px"}
+          fontSize={{xs: "14px", sm: "18px", xl: "24px"}}
           lineHeight={"100%"}
           fontWeight={500}
         >
@@ -75,7 +75,7 @@ const InfoCard:React.FC<Props> = ({ title, navigate, text }) => {
         </Typography>
       </Box>
       <Box borderBottom={"1px solid #D1DCED"}></Box>
-      <Typography color="#F9F9F9" fontSize={"20px"}>
+      <Typography color="#F9F9F9" fontSize={{xs: "12px", sm: "16px", xl: "20px"}}>
         {text}
       </Typography>
     </Box>

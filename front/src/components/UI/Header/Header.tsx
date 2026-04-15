@@ -6,12 +6,8 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Logo from "../../../assets/logo.svg";
 import { styled } from "@mui/material";
-import MainButton from "../Buttons/MainButton";
 import NavBar from "./NavBar";
-import { useLocation } from "react-router";
-import { useState } from "react";
 import { NavLink } from "react-router";
-import EnterWindow from "../../user/EnterWindow/EnterWindow";
 
 
 const LogoText = styled(Typography)({
@@ -23,11 +19,6 @@ const LogoText = styled(Typography)({
 });
 
 const Header = () => {
-  const location = useLocation();
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
     return (
       <AppBar
@@ -42,21 +33,17 @@ const Header = () => {
           marginBottom: "45px",
         }}
       >
-        <EnterWindow isOpen={open} close={handleClose} />
 
-        <Container maxWidth={false} sx={{ maxWidth: "1442px" }}>
+        <Container maxWidth={false} sx={{ maxWidth: "1442px", paddingInline: {sm: '8px', md: '16px'} }}>
           <Toolbar
             sx={{
               display: "flex",
               justifyContent: "space-between",
+              gap: { xs: '10px', sm: '30px'}
             }}
             disableGutters
           >
-            <Box
-              height={75}
-              maxWidth={468}
-              sx={{ display: "flex", alignItems: "center" }}
-            >
+            <Box maxWidth={468} sx={{ display: "flex", alignItems: "center" }}>
               <IconButton
                 size="small"
                 edge="start"
@@ -64,29 +51,32 @@ const Header = () => {
                 component={NavLink}
                 to="/"
                 aria-label="menu"
-                sx={{ padding: "none" }}
+                sx={{ padding: "0", marginRight: "10px" }}
               >
                 <Box
                   component="img"
                   src={Logo}
                   alt="logo"
-                  sx={{ width: 75, height: 75 }}
+                  sx={{
+                    // xs: мобильные устройства, sm: планшеты, md: десктопы
+                    width: {
+                      xs: 40, // На самых маленьких экранах
+                      sm: 60, // От 600px и выше
+                      md: 75, // От 900px и выше
+                    },
+                    height: "auto", // Автоматическая высота сохранит пропорции
+                    display: "block",
+                  }}
                 />
               </IconButton>
 
-              <LogoText>
+              <LogoText sx={{ lineHeight: 1.3, fontSize: {xs: 12, sm: 16} }}>
                 Координационный центр по обеспечению кибербезопасности
                 Кыргызской Республики
               </LogoText>
             </Box>
 
-            {location.pathname !== "" && <NavBar />}
-
-            <MainButton
-              text={"Войти"}
-              onClick={handleOpen}
-              padding="10px 36px"
-            />
+            <NavBar />
           </Toolbar>
         </Container>
       </AppBar>

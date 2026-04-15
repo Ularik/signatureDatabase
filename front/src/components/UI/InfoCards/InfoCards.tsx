@@ -8,7 +8,7 @@ const InfoCardsList = () => {
         display={"flex"}
         flexWrap={"wrap"}
         gap={"31px"}
-        justifyContent={"space-between"}
+        justifyContent={{xs: "space-around", lg: "space-between"}}
         paddingBottom={"35px"}
       >
         <InfoCard

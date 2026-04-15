@@ -30,7 +30,10 @@ const App = () => {
       {inputGlobalStyles}
       <Header />
       <BackLogo />
-      <Container maxWidth={false} sx={{ maxWidth: "1512px" }}>
+      <Container
+        maxWidth={false}
+        sx={{ maxWidth: "1512px", paddingInline: { sm: "8px", md: "16px" } }}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/black-list-ip" element={<BlackListIp />} />

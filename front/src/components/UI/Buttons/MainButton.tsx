@@ -1,25 +1,35 @@
 import { Button } from "@mui/material";
 
 
+interface SizeTypes {
+  xs?: string;
+  xl?: string;
+  sm?: string;
+  md?: string;
+  lg?: string
+}
+
 interface Props {
   text: string;
-  padding: string;
+  padding: SizeTypes;
+  fonts: SizeTypes;
   onClick?: (e: React.MouseEvent) => void;
 }
 
-const MainButton: React.FC<Props> = ({ text, padding, onClick }) => {
+const MainButton: React.FC<Props> = ({ text, padding, fonts, onClick }) => {
   return (
     <Button
       onClick={onClick}
+      fullWidth
       sx={{
         /* Базовые стили */
-        display: "inline-flex",
+        display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: { padding }, // px-9.5 это примерно 38px
+        padding: {...padding}, // px-9.5 это примерно 38px
         borderRadius: "60px",
         fontWeight: 500,
-        fontSize: "16px",
+        fontSize: {...fonts},
         textTransform: "none", // Отключаем капс, который в MUI по умолчанию
         color: "#FFFFFF",
         border: "none",

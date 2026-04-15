@@ -12,11 +12,11 @@ const Home = () => {
         <Box
           maxWidth={850}
           marginInline={"auto"}
-          marginBottom={"26px"}
+          marginBottom={{xs: '12px', sm: '20px', md: "26px"}}
           textAlign={"center"}
         >
           <Typography
-            fontSize={"40px"}
+            fontSize={{xs: '20px', sm: '30px', md: "40px"}}
             color="white"
             fontWeight={400}
             fontFamily={"inherit"}
@@ -24,12 +24,12 @@ const Home = () => {
             variant="h2"
             component={"h2"}
             marginTop={"60px"}
-            marginBottom={"26px"}
+            marginBottom={{xs: '10px', md: "26px"}}
           >
             Единая база киберугроз Кыргызской Республики
           </Typography>
           <Typography
-            fontSize={"18px"}
+            fontSize={{xs: '12px', sm: '16px', md: "18px"}}
             color="white"
             fontFamily={"inherit"}
             lineHeight={"100%"}
