@@ -1,5 +1,5 @@
 import MainButton from "../UI/Buttons/MainButton";
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 
 const SearchInput = () => {
@@ -52,6 +52,7 @@ const SearchInput = () => {
             text={"Поиск"}
             padding={{ xs: "8px", sm: "10px 36px" }}
             fonts={{ xs: "12px", sm: "16px" }}
+            borderRadius={{xs: '10px', sm: '60px'}}
           />
         </Grid>
       </Grid>

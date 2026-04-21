@@ -36,7 +36,7 @@ const NavBar = () => {
           <IconButton
             sx={{
               padding: 0,
-              display: { lg: location.pathname !== '/' ? "none" : "block" },
+              display: { lg: location.pathname !== "/" ? "none" : "block" },
               justifySelf: { xs: "end" },
               color: "white",
               ml: "auto",
@@ -79,6 +79,7 @@ const NavBar = () => {
             onClick={handleOpen}
             padding={{ xs: "6px 18px", sm: "10px 36px" }}
             fonts={{ xs: "12px", sm: "16px" }}
+            borderRadius={{ xs: "60px"}}
           />
         </Box>
       </>

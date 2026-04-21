@@ -10,7 +10,7 @@ const InputElement = () => {
     <>
       <Box
         marginLeft={"auto"}
-        display={"flex"}
+        display={{ xs: "none", sm: "flex" }}
         alignItems={"center"}
         maxWidth={"482px"}
         marginRight={"19px"}

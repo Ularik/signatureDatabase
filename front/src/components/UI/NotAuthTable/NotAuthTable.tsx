@@ -51,12 +51,23 @@ const NotAuthTable = () => {
           justifyContent: "center",
         }}
       >
-        <LockIcon sx={{ height: "71px", width: "65px", marginBottom: '35px' }} />
-        <Typography fontSize={'30px'} maxWidth={'793px'} textAlign={'center'} marginBottom={'88px'}>
+        <LockIcon
+          sx={{ height: "71px", width: "65px", marginBottom: "35px" }}
+        />
+        <Typography
+          fontSize={"30px"}
+          maxWidth={"793px"}
+          textAlign={"center"}
+          marginBottom={"88px"}
+        >
           Доступно только для зарегистрированных пользователей
         </Typography>
-        <MainButton text="Войти в систему" padding="11px 102px" />
-
+        <MainButton
+          text="Войти в систему"
+          fonts={{xs: '10px', sm: '20px'}}
+          padding={{xs: "11px 102px"}}
+          borderRadius={{ xs: "10px", sm: "60px" }}
+        />
       </Box>
 
       <Grid

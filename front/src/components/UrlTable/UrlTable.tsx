@@ -3,23 +3,40 @@ import TableComponent from "../UI/TableComponent/TableComponent";
 import type { RowTable } from "../../types";
 import UrlIcon from "../UI/Icons/UrlIcon";
 import CalendarIcon from "../UI/Icons/CalendarIcon";
+import UrlLiteIcon from "../UI/Icons/UrlLiteIcon";
 
 
 interface Props {
   rows: RowTable[];
 }
 
+const iconsStyle = {
+  width: { xs: "14px", sm: "24px" },
+  marginRight: { xs: "1px", sm: "10px" },
+};
+
 const UrlTable: React.FC<Props> = ({ rows }) => {
   const titles = [
-    <Typography>
-      <UrlIcon sx={{ marginRight: "10px" }} />
-      url-адресс
-    </Typography>,
+    <>
+      <UrlIcon
+        sx={{
+          ...iconsStyle,
+          display: { xs: "none", sm: "inline-block" },
+        }}
+      />
+      <UrlLiteIcon
+        sx={{
+          ...iconsStyle,
+          display: { xs: "inline-block", sm: "none" },
+        }}
+      />
+      URL
+    </>,
 
-    <Typography>
-      <CalendarIcon sx={{ marginRight: "10px" }} />
+    <>
+      <CalendarIcon sx={iconsStyle} />
       Дата обнаружения
-    </Typography>,
+    </>,
   ];
 
   return (

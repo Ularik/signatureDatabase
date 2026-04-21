@@ -9,20 +9,26 @@ interface Props {
   rows: RowTable[];
 }
 
+const iconsStyle = {
+  width: { xs: "14px", sm: "24px" },
+  marginRight: { xs: "1px", sm: "10px" },
+};
+
+
 const IpTable: React.FC<Props> = ({ rows }) => {
   let titles = [
-    <Typography>
-      <IpIcon sx={{ marginRight: "10px" }} />
+    <>
+      <IpIcon sx={iconsStyle} />
       Ip-адресс
-    </Typography>,
-    <Typography>
-      <GeolocationIcon sx={{ marginRight: "10px" }} />
+    </>,
+    <>
+      <GeolocationIcon sx={iconsStyle} />
       Страна
-    </Typography>,
-    <Typography>
-      <CalendarIcon sx={{ marginRight: "10px" }} />
+    </>,
+    <>
+      <CalendarIcon sx={iconsStyle} />
       Дата обнаружения
-    </Typography>,
+    </>,
   ];
 
   return (

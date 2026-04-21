@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import type { RowTable } from '../../../types';
 import TableItem from "./TableItem";
@@ -41,19 +41,27 @@ const TableComponent: React.FC<Props> = ({ titles, rows, onClick }) => {
           id="title"
           paddingBlock={"15.84px"}
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            paddingInline: "80px",
+            display: "grid",
+            gridTemplateColumns: `repeat(${titles.length}, auto)`,
+            paddingInline: { xs: "8px", md: "80px" },
+            paddingBlock: { xs: "6.5px", md: "10px" },
             background: "#283D5D",
           }}
         >
           {titles.map((title, index) => (
             <Box
               key={index}
-              sx={{ flex: 1 }}
-              textAlign={"center"}
+              sx={{
+                flex: 1,
+                paddingLeft: index === 0 ? { xs: "25px", md: 0 } : null,
+              }}
+              textAlign={index === 0 ? "start" : "center"}
             >
-              {title}
+              <Typography
+                sx={{ fontSize: { xs: "10px", sm: "15px", md: "18px" } }}
+              >
+                {title}
+              </Typography>
             </Box>
           ))}
         </Box>

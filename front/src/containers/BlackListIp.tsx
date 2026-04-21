@@ -50,6 +50,7 @@ const BlackListIp = () => {
       </Box>
       <Box
         borderRadius={"20px"}
+        overflow={'hidden'}
         border={"1px solid #486084"}
         padding={"7px 0 19px"}
         marginBottom={"13px"}

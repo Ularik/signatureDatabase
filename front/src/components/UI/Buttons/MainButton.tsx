@@ -13,10 +13,11 @@ interface Props {
   text: string;
   padding: SizeTypes;
   fonts: SizeTypes;
+  borderRadius: SizeTypes;
   onClick?: (e: React.MouseEvent) => void;
 }
 
-const MainButton: React.FC<Props> = ({ text, padding, fonts, onClick }) => {
+const MainButton: React.FC<Props> = ({ text, padding, fonts, borderRadius, onClick }) => {
   return (
     <Button
       onClick={onClick}
@@ -26,10 +27,10 @@ const MainButton: React.FC<Props> = ({ text, padding, fonts, onClick }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: {...padding}, // px-9.5 это примерно 38px
-        borderRadius: "60px",
+        padding: { ...padding }, // px-9.5 это примерно 38px
+        borderRadius: {...borderRadius},
         fontWeight: 500,
-        fontSize: {...fonts},
+        fontSize: { ...fonts },
         textTransform: "none", // Отключаем капс, который в MUI по умолчанию
         color: "#FFFFFF",
         border: "none",

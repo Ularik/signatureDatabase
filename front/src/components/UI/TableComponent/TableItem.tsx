@@ -31,12 +31,12 @@ const TableItem: React.FC<Props> = ({ onClick, row }) => {
         sx={{
           width: "100%",
           position: "relative",
-          display: "flex",
-          justifyContent: "space-between",
+          display: "grid",
+          gridTemplateColumns: `repeat(${columns.length}, 1fr)`,
           gap: "10px",
           alignItems: "center",
           paddingBlock: "10px",
-          paddingInline: "80px",
+          paddingInline: { xs: "8px", md: "80px" },
           borderBlock: "1px solid #486084",
           transition: "0.3s",
           cursor: "pointer",
@@ -51,11 +51,18 @@ const TableItem: React.FC<Props> = ({ onClick, row }) => {
         onClick={copy}
       >
         {columns.map((value, index) => (
-          <Typography 
-          key={index} 
-          textAlign={"center"} 
-          sx={{ flex: 1 }}
-          >{value}
+          <Typography
+            key={index}
+            textAlign={index === 0 ? "start" : "center"}
+            sx={{
+              flex: 1,
+              textWrap: "wrap",
+              wordBreak: "break-word", // Чтобы длинные слова не ломали сетку
+              minWidth: 0, // Важно для предотвращения распирания в grid/flex
+              fontSize: { xs: "12px", sm: "14px", md: "18px" },
+            }}
+          >
+            {value}
           </Typography>
         ))}
 
@@ -64,7 +71,7 @@ const TableItem: React.FC<Props> = ({ onClick, row }) => {
           sx={{
             position: "absolute",
             right: "10px",
-            fontSize: "14px",
+            fontSize: {xs: '12px', md: "14px"},
             color: "#fff",
             opacity: 0, // Скрыта по умолчанию
             transform: "translateX(-1px)", // Немного смещена для эффекта вылета

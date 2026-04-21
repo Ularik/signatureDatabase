@@ -141,8 +141,14 @@ const EnterWindow: React.FC<Props> = ({ isOpen, close }) => {
                 <Typography sx={labelStyle}>Пароль:</Typography>
                 <TextField variant="outlined" fullWidth sx={inputStyle} />
               </Box>
-
-              <MainButton text="Войти" padding="10px 32px" />
+              <Box>
+                <MainButton
+                  text="Войти"
+                  padding={{ xs: "10px 32px" }}
+                  fonts={{ xs: "10px", sm: "16px" }}
+                  borderRadius={{ xs: "60px" }}
+                />
+              </Box>
             </Box>
           </Box>
         </Fade>
