@@ -3,9 +3,23 @@ import { Box } from "@mui/material";
 import InputElement from "../components/UI/InputElement/InputElement";
 import SearchInput from "../components/SearchInput/SearchInput";
 import PaginationCustom from "../components/UI/Pagination/PaginationCustom";
-import UrlTable from "../components/UrlTable/UrlTable";
+import TableGeneral from "../components/TableGeneral/TableGeneral";
 import InfoCardsLinks from "../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
+import UrlIcon from "../components/UI/Icons/UrlIcon";
+import UrlLiteIcon from "../components/UI/Icons/UrlLiteIcon";
+import ArrowIcon from "../components/UI/Icons/ArrowIcon";
+import CalendarIcon from "../components/UI/Icons/CalendarIcon";
 
+const iconsStyle = {
+  width: { xs: "16px", sm: "24px" },
+  marginRight: { xs: "3px", sm: "10px" },
+};
+
+const arrowIconStyle = {
+  opacity: 0,
+  width: "18px",
+  height: "22px",
+};
 
 const BlackListUrl = () => {
   const rows = [
@@ -35,6 +49,30 @@ const BlackListUrl = () => {
       secondColumn: "2024",
     },
   ];
+  const titles = [
+    <>
+      <UrlIcon
+        sx={{
+          ...iconsStyle,
+          display: { xs: "none", sm: "inline-block" },
+        }}
+      />
+      <UrlLiteIcon
+        sx={{
+          ...iconsStyle,
+          display: { xs: "inline-block", sm: "none" },
+        }}
+      />
+      URL
+      <ArrowIcon className="arrowIcon" sx={arrowIconStyle} />
+    </>,
+
+    <>
+      <CalendarIcon sx={iconsStyle} />
+      Дата обнаружения
+      <ArrowIcon className="arrowIcon" sx={arrowIconStyle} />
+    </>,
+  ];
 
   return (
     <Box maxWidth={"1326px"} marginInline={"auto"} paddingBottom={"51px"}>
@@ -62,15 +100,15 @@ const BlackListUrl = () => {
         <SearchInput />
       </Box>
       <Box
-        borderRadius={"20px"}
+        borderRadius={{xs: "10px", md: "20px"}}
         border={"1px solid #486084"}
-        padding={{xs: '15px 0', md: "7px 0 19px"}}
+        padding={{ xs: "15px 0", md: "7px 0 19px" }}
         marginBottom={"13px"}
-        overflow={'hidden'}
+        overflow={"hidden"}
       >
         <InputElement />
 
-        <UrlTable rows={rows} />
+        <TableGeneral titles={titles} rows={rows} />
       </Box>
 
       <Box marginLeft={"auto"}>

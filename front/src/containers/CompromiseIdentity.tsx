@@ -1,17 +1,63 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import InputElement from "../components/UI/InputElement/InputElement";
-import TableComponent from "../components/UI/TableComponent/TableComponent";
+import GppMaybeOutlinedIcon from "@mui/icons-material/GppMaybeOutlined";
 import PaginationCustom from "../components/UI/Pagination/PaginationCustom";
 import { selectUser } from "../components/user/store/userSelectors";
 import { useAppSelector } from "../app/hooks";
 import NotAuthTable from "../components/UI/NotAuthTable/NotAuthTable";
-import CompromiseTable from "../components/CompromiseTable/CompromiseTable";
+import { useState } from "react";
+import type { RowTable } from "../types";
+import DocIcon from "../components/UI/Icons/DocIcon";
+import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
+import InfoCardsLinks from "../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
+import SearchInput from "../components/SearchInput/SearchInput";
+import TableGeneral from "../components/TableGeneral/TableGeneral";
+import ModalDescription from "../components/UI/ModalDescription/ModalDescription";
+import ArrowIcon from "../components/UI/Icons/ArrowIcon";
 
+
+const arrowIconStyle = {
+  opacity: 0,
+  width: "18px",
+  height: "22px",
+};
+
+const iconsStyle = {
+  width: { xs: "16px", sm: "24px" },
+  marginRight: { xs: "3px", sm: "10px" },
+};
 
 const CompromiseIdentity = () => {
     const user = useAppSelector(selectUser);
-    console.log(user)
+    const [signature, setSignature] = useState<RowTable | null>(null);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const openModal = (id: string) => {
+      const signatureData = rows.find((row) => row.id === id);
+      if (signatureData) {
+        setSignature(signatureData);
+        setIsOpen(true);
+      }
+    };
+
+    const titles = [
+      <>
+        <GppMaybeOutlinedIcon sx={iconsStyle} />
+        Уязвимости (CVE)
+        <ArrowIcon className="arrowIcon" sx={arrowIconStyle} />
+      </>,
+      <>
+        <DocIcon sx={iconsStyle} />
+        Сигнатура
+        <ArrowIcon className="arrowIcon" sx={arrowIconStyle} />
+      </>,
+      <>
+        <CreateOutlinedIcon sx={iconsStyle} />
+        Описание
+        <ArrowIcon className="arrowIcon" sx={arrowIconStyle} />
+      </>,
+    ];
     const rows = [
       {
         id: "1",
@@ -53,29 +99,52 @@ const CompromiseIdentity = () => {
 
   return (
     <Box maxWidth={"1326px"} marginInline={"auto"} paddingBottom={"51px"}>
-      <Box textAlign={"center"} color="#FFFFFF" marginBottom={"24px"}>
-        <Typography fontSize={"32px"}>Идентификаторы компромитации</Typography>
-        <Typography fontSize={"20px"}>
+      <Box
+        textAlign={"center"}
+        color="#FFFFFF"
+        marginBottom={{ xs: "10px", md: "24px" }}
+      >
+        <Typography
+          fontSize={{ xs: "20px", sm: "30px", md: "40px" }}
+          marginBottom={{ xs: "5px", md: "10px" }}
+        >
+          Идентификаторы компромитации
+        </Typography>
+        <Typography fontSize={{ xs: "12px", sm: "16px", md: "20px" }}>
           Список вредоносных паттернов и индикаторов
         </Typography>
       </Box>
-      <Box
-        borderRadius={"20px"}
-        border={"1px solid #486084"}
-        padding={"7px 0 19px"}
-        marginBottom={"13px"}
-        position={"relative"}
-      >
-        <InputElement />
-        {/* {user ? <TableComponent rows={rows} /> : <NotAuthTable />} */}
-        <CompromiseTable rows={rows} />
+
+      <Box marginBottom={"20px"} display={{ xs: "block", sm: "none" }}>
+        <InfoCardsLinks />
       </Box>
 
-      {user && (
-        <Box marginLeft={"auto"}>
-          <PaginationCustom total={55} />
-        </Box>
-      )}
+      <Box display={{ xs: "block", sm: "none" }}>
+        <SearchInput />
+      </Box>
+      <Box
+        borderRadius={{ xs: "10px", md: "20px" }}
+        border={"1px solid #486084"}
+        position={"relative"}
+        padding={{ xs: "15px 0", md: "7px 0 19px" }}
+        marginBottom={"13px"}
+        overflow={"hidden"}
+      >
+        <InputElement />
+        {/* <NotAuthTable/> */}
+        <TableGeneral onClick={openModal} titles={titles} rows={rows} />
+        {signature && (
+          <ModalDescription
+            item={signature}
+            isOpen={isOpen}
+            close={() => setIsOpen(false)}
+          />
+        )}
+      </Box>
+
+      <Box marginLeft={"auto"}>
+        <PaginationCustom total={55} />
+      </Box>
     </Box>
   );
 };

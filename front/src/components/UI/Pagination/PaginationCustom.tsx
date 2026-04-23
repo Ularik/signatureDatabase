@@ -1,11 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import type React from "react";
 import DownloadIcon from "../Icons/DownloadIcon";
-import { Scale } from "@mui/icons-material";
 
 
 interface Props {
   total: number;
+}
+
+const fontsStyle = {
+  fontSize: {xs: '12px', sm: '14px', md: "18px"},
 }
 
 const PaginationCustom: React.FC<Props> = ({ total }) => {
@@ -20,9 +23,10 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
     <Box
       key={n}
       sx={{
+        ...fontsStyle,
         cursor: "pointer",
-        width: "44px",
-        height: "42px",
+        width: { xs: "26px", sm: "30px", md: "44px" },
+        height: { xs: "24px", sm: "30px", md: "42px" },
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -43,7 +47,7 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
   return (
     <Box
       display={"flex"}
-      gap={"12px"}
+      gap={{ xs: "10px", md: "12px" }}
       color={"#ffff"}
       alignItems="center"
       justifyContent={"end"}
@@ -51,12 +55,14 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
       {/* Кнопка Назад */}
       <Box
         sx={{
+          ...fontsStyle,
           border: "1px solid #FFFFFF",
           borderRadius: "30px",
-          height: "42px",
+          height: { xs: "26px", sm: "32px", md: "42px" },
           display: "flex",
+          gap: 1,
           alignItems: "center",
-          px: "20px",
+          px: { xs: "10px", sm: "13px", md: "20px" },
           cursor: "pointer",
           "&:hover": {
             background: "linear-gradient(to bottom, #EF8422, #A86222)",
@@ -64,7 +70,11 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
           },
         }}
       >
-        {"< Предыдущая"}
+        <Typography>{"< "}</Typography>
+
+        <Typography display={{ xs: "none", md: "inline-block" }}>
+          Предыдущая
+        </Typography>
       </Box>
 
       {/* Основная логика отрисовки */}
@@ -78,7 +88,7 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
             <PageCircle key={page} n={page} />
           ))}
 
-          <Typography sx={{ mx: 1 }}>...</Typography>
+          <Typography>...</Typography>
 
           <PageCircle n={lastPage} />
         </>
@@ -87,12 +97,14 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
       {/* Кнопка Вперед */}
       <Box
         sx={{
+          ...fontsStyle,
           border: "1px solid #FFFFFF",
           borderRadius: "30px",
-          height: "42px",
+          height: { xs: "26px", sm: "32px", md: "42px" },
           display: "flex",
+          gap: 1,
           alignItems: "center",
-          px: "20px",
+          px: { xs: "10px", sm: "13px", md: "20px" },
           cursor: "pointer",
           "&:hover": {
             background: "linear-gradient(to bottom, #EF8422, #A86222)",
@@ -100,20 +112,25 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
           },
         }}
       >
-        {"Следующая >"}
+        <Typography display={{ xs: "none", md: "inline-block" }}>
+          Следующая
+        </Typography>
+        <Typography>{">"}</Typography>
       </Box>
 
       <Box
         sx={{
-          "&::before": {
-            content: '""', 
-            display: "block",
-            height: "42px", 
-            borderLeft: "2px solid #ffff",
-            marginRight: "12px", // Отступ от палки до текста
-          },
+          display: "block",
+          height: { xs: "26px", sm: "32px", md: "42px" },
+          borderLeft: "2px solid #ffff",
+        }}
+      ></Box>
+      <Box
+        sx={{
+          ...fontsStyle,
           height: "42px",
           display: "flex",
+          gap: "5px",
           alignItems: "center",
           cursor: "pointer",
           transition: "0.3s",
@@ -122,8 +139,8 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
           },
         }}
       >
-        Экспорт
-        <DownloadIcon sx={{ marginLeft: "5px" }} />
+        <Box sx={{ display: { xs: "none", sm: "inline-block" } }}>Экспорт</Box>
+        <DownloadIcon />
       </Box>
     </Box>
   );

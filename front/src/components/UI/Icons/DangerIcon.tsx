@@ -13,20 +13,20 @@ const DangerIcon = createSvgIcon(
     <path
       d="M18.259 14.6688L11.0648 1.45683C10.9079 1.16636 10.6804 0.92475 10.4055 0.756657C10.1306 0.588564 9.81818 0.5 9.50002 0.5C9.18187 0.5 8.8694 0.588564 8.59451 0.756657C8.31962 0.92475 8.09214 1.16636 7.93527 1.45683L0.741004 14.6688C0.582445 14.957 0.499302 15.284 0.500004 15.6168C0.500707 15.9495 0.585228 16.2762 0.745003 16.5636C0.904777 16.851 1.13412 17.089 1.4098 17.2535C1.68547 17.4179 1.99767 17.5029 2.31475 17.4999H16.7033C17.0188 17.4996 17.3288 17.4121 17.6019 17.2463C17.8751 17.0805 18.1019 16.8422 18.2595 16.5554C18.4171 16.2685 18.5001 15.9432 18.5 15.612C18.4999 15.2809 18.4168 14.9556 18.259 14.6688Z"
       stroke="url(#paint0_linear_2030_189)"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M9.5 7.17859V11.2262"
       stroke="url(#paint1_linear_2030_189)"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M9.5 15.2738H9.50917"
       stroke="url(#paint2_linear_2030_189)"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <defs>
       <linearGradient
@@ -37,8 +37,8 @@ const DangerIcon = createSvgIcon(
         y2="17.5"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#EF8422" />
-        <stop offset="1" stop-color="#A86222" />
+        <stop stopColor="#EF8422" />
+        <stop offset="1" stopColor="#A86222" />
       </linearGradient>
       <linearGradient
         id="paint1_linear_2030_189"
@@ -48,8 +48,8 @@ const DangerIcon = createSvgIcon(
         y2="11.2262"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#EF8422" />
-        <stop offset="1" stop-color="#A86222" />
+        <stop stopColor="#EF8422" />
+        <stop offset="1" stopColor="#A86222" />
       </linearGradient>
       <linearGradient
         id="paint2_linear_2030_189"
@@ -59,8 +59,8 @@ const DangerIcon = createSvgIcon(
         y2="16.2738"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#EF8422" />
-        <stop offset="1" stop-color="#A86222" />
+        <stop stopColor="#EF8422" />
+        <stop offset="1" stopColor="#A86222" />
       </linearGradient>
     </defs>
   </svg>,

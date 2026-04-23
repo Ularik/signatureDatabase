@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DoneIcon from "@mui/icons-material/Done";
-import type { RowsCopy } from "../../../types";
+import type { RowsCopy } from "../../types";
 
 
 interface Props {
@@ -43,6 +43,15 @@ const TableItem: React.FC<Props> = ({ onClick, row }) => {
           "&:hover": {
             background: "#283D5D",
             "& .copy-icon": {
+              opacity: { xs: 0, sm: 1 },
+              transform: "translateX(0)",
+            },
+          },
+          "&:active": {
+            "& .lastColumn": {
+              opacity: 0
+            },
+            "& .copy-icon": {
               opacity: 1,
               transform: "translateX(0)",
             },
@@ -54,6 +63,7 @@ const TableItem: React.FC<Props> = ({ onClick, row }) => {
           <Typography
             key={index}
             textAlign={index === 0 ? "start" : "center"}
+            className={index === columns.length - 1 ? 'lastColumn' : ''}
             sx={{
               flex: 1,
               textWrap: "wrap",
@@ -71,7 +81,7 @@ const TableItem: React.FC<Props> = ({ onClick, row }) => {
           sx={{
             position: "absolute",
             right: "10px",
-            fontSize: {xs: '12px', md: "14px"},
+            fontSize: { xs: "12px", md: "14px" },
             color: "#fff",
             opacity: 0, // Скрыта по умолчанию
             transform: "translateX(-1px)", // Немного смещена для эффекта вылета

@@ -62,12 +62,14 @@ const NotAuthTable = () => {
         >
           Доступно только для зарегистрированных пользователей
         </Typography>
-        <MainButton
-          text="Войти в систему"
-          fonts={{xs: '10px', sm: '20px'}}
-          padding={{xs: "11px 102px"}}
-          borderRadius={{ xs: "10px", sm: "60px" }}
-        />
+        <Box>
+          <MainButton
+            text="Войти в систему"
+            fonts={{ xs: "10px", sm: "20px" }}
+            padding={{ xs: "11px 102px" }}
+            borderRadius={{ xs: "10px", sm: "60px" }}
+          />
+        </Box>
       </Box>
 
       <Grid

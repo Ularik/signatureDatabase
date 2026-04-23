@@ -77,7 +77,7 @@ const NavBar = () => {
           <MainButton
             text={"Войти"}
             onClick={handleOpen}
-            padding={{ xs: "6px 18px", sm: "10px 36px" }}
+            padding={{ xs: "6px 18px", sm: "8px 22px", md: "10px 36px" }}
             fonts={{ xs: "12px", sm: "16px" }}
             borderRadius={{ xs: "60px"}}
           />
