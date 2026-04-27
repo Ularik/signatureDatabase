@@ -8,6 +8,7 @@ import Logo from "../../../assets/logo.svg";
 import { styled } from "@mui/material";
 import NavBar from "./NavBar";
 import { NavLink } from "react-router";
+import type { User } from "../../../types";
 
 
 const LogoText = styled(Typography)({
@@ -18,7 +19,11 @@ const LogoText = styled(Typography)({
     lineHeight: "100%",
 });
 
-const Header = () => {
+interface Props {
+  user: User | null;
+}
+
+const Header: React.FC<Props> = ({ user }) => {
 
     return (
       <AppBar
@@ -76,7 +81,7 @@ const Header = () => {
               </LogoText>
             </Box>
 
-            <NavBar />
+            <NavBar user={user} />
           </Toolbar>
         </Container>
       </AppBar>

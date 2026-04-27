@@ -6,6 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { store, persistor } from "./app/store.ts";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 
 createRoot(document.getElementById("root")!).render(
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")!).render(
       <Provider store={store}>
         <App />
       </Provider>
+      <ToastContainer/>
     </PersistGate>
   </BrowserRouter>,
 );

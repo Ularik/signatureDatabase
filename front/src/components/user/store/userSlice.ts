@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { User, GlobalError, ValidationError } from "../../../types";
-import { register, login, logout } from "./userThunks";
+import { register, login } from "./userThunks";
 
 export interface UsersState {
   user: User | null;
@@ -25,14 +25,25 @@ const initialState: UsersState = {
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    delUser: function (state) {
+      state.user = null;
+      localStorage.removeItem("refresh");
+    },
+    updateAccessToken: (state, { payload }) => {
+      if (state.user) {
+        state.user.token = payload;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(register.pending, (state) => {
       state.registerLoading = true;
     });
     builder.addCase(register.fulfilled, (state, { payload: data }) => {
       state.registerLoading = false;
-      state.user = data.user;
+      state.user = { email: data.email, token: data.access };
+      localStorage.setItem("refresh", data.refresh);
     });
     builder.addCase(register.rejected, (state, { payload: error }) => {
       state.registerLoading = false;
@@ -44,25 +55,16 @@ export const usersSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, { payload: data }) => {
       state.loginLoading = false;
-      state.user = data.user;
+      state.user = { email: data.email, token: data.access };
+      localStorage.setItem("refresh", data.refresh);
     });
     builder.addCase(login.rejected, (state, { payload: error }) => {
       state.loginLoading = false;
       state.loginError = error || null;
     });
-
-    builder.addCase(logout.pending, (state) => {
-      state.logoutLoading = true;
-    });
-    builder.addCase(logout.fulfilled, (state, { payload: data }) => {
-      state.logoutLoading = false;
-      state.user = null;
-    });
-    builder.addCase(logout.rejected, (state, { payload: error }) => {
-      state.logoutLoading = false;
-      state.logoutError = false;
-    });
   },
 });
+
+export const { delUser, updateAccessToken } = usersSlice.actions;
 
 export const usersReducer = usersSlice.reducer;

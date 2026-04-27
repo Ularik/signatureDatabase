@@ -86,7 +86,7 @@ const InputElement = () => {
         </Box>
 
         <TextField
-          placeholder="Поиск..." // Если нужен текст внутри
+          placeholder="Поиск..." 
           variant="outlined"
           fullWidth
           sx={{

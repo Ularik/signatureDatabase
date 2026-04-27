@@ -2,9 +2,9 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import { TextField, Typography, IconButton } from "@mui/material";
+import { Typography, IconButton } from "@mui/material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import type { RowTable } from "../../../types";
+import type { BlackListCompromiseItem } from "../../../types";
 
 
 const modalWindowStyle = {
@@ -32,7 +32,7 @@ const mainContentStyle = {
 };
 
 interface Props {
-  item: RowTable;
+  item: BlackListCompromiseItem;
   isOpen: boolean;
   close: () => void;
 }

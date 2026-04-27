@@ -6,6 +6,13 @@ import { TextField, Typography, IconButton, Grid } from "@mui/material";
 import MainButton from "../../UI/Buttons/MainButton";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import LogoBackSvg from "../../../assets/logoBack.svg";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useState } from "react";
+import { login } from "../store/userThunks";
+import { selectLoginError, selectLoginLoading } from "../store/userSelectors";
+import Spinner from "../../UI/Spinner/Spinner";
+import type { LoginError } from "../../../types";
+import { toast } from "react-toastify";
 
 
 const modalWindowStyle = {
@@ -33,6 +40,7 @@ const mainContentStyle = {
   boxShadow: 24,
   p: "44px 0 60px",
   position: "relative",
+  overflow: 'hidden',
 };
 
 
@@ -90,6 +98,37 @@ interface Props {
 }
 
 const EnterWindow: React.FC<Props> = ({ isOpen, close }) => {
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(selectLoginLoading);
+  const [form, setForm] = useState({
+    email: "",
+    password: ""
+  });
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm(prevState => ({...prevState, [name]: value}))
+  }
+
+  const loginView = async () => {
+    try {
+      if (form.email.trim() === '' || form.password.trim() === '') return;
+
+      await dispatch(login(form)).unwrap();
+      setForm({
+        email: "",
+        password: ""
+      });
+      close()
+    } catch(err) {
+      console.log(err);
+      const error = err as LoginError; 
+
+      if (error.detail === "No active account found with the given credentials") {
+        toast.error('Такой пользователь не найден');
+      }
+    }
+  }
 
   return (
     <div>
@@ -113,6 +152,7 @@ const EnterWindow: React.FC<Props> = ({ isOpen, close }) => {
         <Fade in={isOpen}>
           <Box sx={modalWindowStyle}>
             <Grid container direction={"column"} sx={mainContentStyle}>
+              {isLoading && <Spinner/>}
               <IconButton
                 onClick={() => close()}
                 sx={{
@@ -146,18 +186,36 @@ const EnterWindow: React.FC<Props> = ({ isOpen, close }) => {
                   Вход в систему
                 </Typography>
               </Grid>
-              <Grid size={{xs: 10, sm: 8 }}>
-                <Box component={"form"}>
+              <Grid size={{ xs: 10, sm: 8 }}>
+                <Box>
                   <Typography sx={labelStyle}>Логин:</Typography>
-                  <TextField variant="outlined" fullWidth sx={inputStyle} />
+                  <TextField
+                    name="email"
+                    onChange={onChange}
+                    value={form.email}
+                    required
+                    variant="outlined"
+                    fullWidth
+                    sx={inputStyle}
+                  />
 
                   <Typography sx={labelStyle}>Пароль:</Typography>
-                  <TextField variant="outlined" fullWidth sx={inputStyle} />
+                  <TextField
+                    name="password"
+                    value={form.password}
+                    required
+                    type="password"
+                    onChange={onChange}
+                    variant="outlined"
+                    fullWidth
+                    sx={inputStyle}
+                  />
                 </Box>
               </Grid>
 
               <Grid size={{ xs: 10, sm: 2 }}>
                 <MainButton
+                  onClick={loginView}
                   text="Войти"
                   padding={{ xs: "10px 32px" }}
                   fonts={{ xs: "10px", sm: "16px" }}

@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/es/storage";
 import { usersReducer } from "../components/user/store/userSlice";
+import { compromisesRouter } from "../containers/CompromiseIdentity/store/compromiseSlice";
 import {
   FLUSH,
   PAUSE,
@@ -21,6 +22,7 @@ const usersPersistConfig = {
 
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
+  compromises: compromisesRouter,
 });
 
 export const store = configureStore({

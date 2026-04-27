@@ -6,9 +6,17 @@ import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import { Grid } from "@mui/material";
 import LockIcon from "../Icons/LockIcon";
 import MainButton from "../Buttons/MainButton";
+import EnterWindow from "../../user/EnterWindow/EnterWindow";
+import { useLocation } from "react-router";
+import { useState } from "react";
 
 
 const NotAuthTable = () => {
+  const location = useLocation();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+    
   const titleSignature = [
     <Typography>
       <GppMaybeOutlinedIcon sx={{ marginRight: "10px" }} />
@@ -35,6 +43,7 @@ const NotAuthTable = () => {
         color: "#FFFFFF",
       }}
     >
+      <EnterWindow isOpen={open} close={handleClose} />
       <Box
         sx={{
           position: "absolute",
@@ -68,6 +77,7 @@ const NotAuthTable = () => {
             fonts={{ xs: "10px", sm: "20px" }}
             padding={{ xs: "11px 102px" }}
             borderRadius={{ xs: "10px", sm: "60px" }}
+            onClick={handleOpen}
           />
         </Box>
       </Box>

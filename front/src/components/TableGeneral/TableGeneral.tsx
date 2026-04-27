@@ -1,28 +1,31 @@
 import { Box, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import type { RowTable } from "../../types";
 import TableItem from "./TableItem";
-import type { RowsCopy } from "../../types";
 import { useState } from "react";
 
 
-interface Props {
+interface TableGeneralProps<T> {
   titles: React.ReactElement[];
-  rows: RowTable[];
-  onClick?: (id: string) => void;
+  rows: T[];
+  onClick?: (id: string | number) => void;
 }
 
-const TableGeneral: React.FC<Props> = ({ titles, rows, onClick }) => {
-  const [rowsCopy, setRowsCopy] = useState<RowsCopy[]>(
+const TableGeneral = <T extends { id: string | number }>({
+  titles,
+  rows,
+  onClick,
+}: TableGeneralProps<T>) => {
+  // Типизируем состояние как массив входящего типа + поле isCopy
+  const [rowsCopy, setRowsCopy] = useState<(T & { isCopy: boolean })[]>(
     rows.map((row) => ({ ...row, isCopy: false })),
   );
 
-  const copy = async (id: string) => {
-    setRowsCopy(
-      rowsCopy.map((row) => {
-        if (id === row.id) return { ...row, isCopy: true };
-        return { ...row, isCopy: false };
-      }),
+  const handleCopy = async (id: string | number) => {
+    setRowsCopy((prev) =>
+      prev.map((row) => ({
+        ...row,
+        isCopy: row.id === id,
+      })),
     );
     if (onClick) onClick(id);
   };
@@ -31,12 +34,13 @@ const TableGeneral: React.FC<Props> = ({ titles, rows, onClick }) => {
     <Box
       component={Paper}
       sx={{
-        position: 'relative',
+        position: "relative",
         backgroundColor: "inherit",
         display: "flex",
         flexDirection: "column",
         gap: "11px",
         color: "#FFFFFF",
+        minHeight: '300px'
       }}
     >
       <Box
@@ -61,7 +65,7 @@ const TableGeneral: React.FC<Props> = ({ titles, rows, onClick }) => {
                 color: "#EF8422",
                 "& .arrowIcon": {
                   transition: "0.3s",
-                  opacity: { xs: 1, sm: 0},
+                  opacity: { xs: 1, sm: 0 },
                   visibility: "visible",
                   transform: "translateX(0)", // Можно добавить легкую анимацию
                 },
@@ -80,7 +84,7 @@ const TableGeneral: React.FC<Props> = ({ titles, rows, onClick }) => {
       </Box>
 
       {rowsCopy.map((row, index) => (
-        <TableItem onClick={copy} row={row} key={index} />
+        <TableItem key={row.id ?? index} onClick={handleCopy} row={row} />
       ))}
     </Box>
   );

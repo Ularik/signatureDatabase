@@ -1,13 +1,14 @@
-import { Routes, Route } from 'react-router';
-import BackLogo from './components/UI/BackLogo/BackLogo';
-import Home from './containers/Home';
-import BlackListIp from './containers/BlackListIp';
-import BlackListUrl from './containers/BlackListUrl';
-import { Container, Typography } from '@mui/material';
-import Header from './components/UI/Header/Header';
+import { Routes, Route } from "react-router";
+import BackLogo from "./components/UI/BackLogo/BackLogo";
+import Home from "./containers/Home";
+import BlackListIp from "./containers/BlackListIp";
+import BlackListUrl from "./containers/BlackListUrl";
+import { Container, Typography } from "@mui/material";
+import Header from "./components/UI/Header/Header";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import CompromiseIdentity from './containers/CompromiseIdentity';
-
+import CompromiseIdentity from "./containers/CompromiseIdentity/CompromiseIdentity";
+import { selectUser } from "./components/user/store/userSelectors";
+import { useAppSelector } from "./app/hooks";
 
 const inputGlobalStyles = (
   <GlobalStyles
@@ -23,12 +24,12 @@ const inputGlobalStyles = (
 );
 
 const App = () => {
-  
+  const user = useAppSelector(selectUser);
 
   return (
     <>
       {inputGlobalStyles}
-      <Header />
+      <Header user={user} />
       <BackLogo />
       <Container
         maxWidth={false}
@@ -38,12 +39,15 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/black-list-ip" element={<BlackListIp />} />
           <Route path="/black-list-url" element={<BlackListUrl />} />
-          <Route path="/compromise-identity" element={<CompromiseIdentity />} />
+          <Route
+            path="/compromise-identity"
+            element={<CompromiseIdentity user={user} />}
+          />
           <Route path="*" element={<Typography>PAGE NOT FOUND</Typography>} />
         </Routes>
       </Container>
     </>
   );
-}
+};
 
-export default App
+export default App;
