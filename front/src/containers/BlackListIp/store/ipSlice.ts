@@ -6,12 +6,18 @@ export interface IpState {
   ipList: BlackListIpItem[];
   fetchLoading: boolean;
   fetchError: GlobalError | null;
+  total: number;
+  limit: number;
+  offset: number;
 }
 
 const initialState: IpState = {
   ipList: [],
   fetchLoading: false,
   fetchError: null,
+  total: 0,
+  limit: 9,
+  offset: 0
 };
 
 export const ipSlice = createSlice({
@@ -24,7 +30,10 @@ export const ipSlice = createSlice({
     });
     builder.addCase(getIpList.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
-      state.ipList = payload;
+      state.ipList = payload.result;
+      state.total = payload.total;
+      state.limit = payload.limit;
+      state.offset = payload.offset;
     });
     builder.addCase(getIpList.rejected, (state, { payload: error }) => {
       state.fetchLoading = false;

@@ -10,8 +10,8 @@ import ArrowIcon from "../../components/UI/Icons/ArrowIcon";
 import GeolocationIcon from "../../components/UI/Icons/GeolocationIcon";
 import CalendarIcon from "../../components/UI/Icons/CalendarIcon";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectIpList, selectIpListError, selectIpListLoading } from "./store/ipSelectors";
-import { useEffect } from "react";
+import { selectIpList, selectIpListError, selectIpListLoading, selectIpTotal, selectIpLimit } from "./store/ipSelectors";
+import { useEffect, useState } from "react";
 import { getIpList } from "./store/ipThunks";
 
 
@@ -30,10 +30,20 @@ const arrowIconStyle = {
 const BlackListIp = () => {
   const dispatch = useAppDispatch();
   const rows = useAppSelector(selectIpList);
+  const total = useAppSelector(selectIpTotal);
+  const limit = useAppSelector(selectIpLimit);
+
+  const localPage = localStorage.getItem('page');
+  const [page, setPage] = useState<number>(localPage ? JSON.parse(localPage) : 1);
+  const paginationPage = (page: number) => {
+    setPage(page);
+    localStorage.setItem('page', JSON.stringify(page));
+  };
 
   useEffect(() => {
-    dispatch(getIpList());
-  }, [dispatch])
+    dispatch(getIpList({ limit: limit, offset: (page - 1) * limit }));
+  }, [dispatch, page]);
+
 
   const titles = [
     <>
@@ -91,7 +101,7 @@ const BlackListIp = () => {
       </Box>
 
       <Box marginLeft={"auto"}>
-        <PaginationCustom total={55} />
+        <PaginationCustom total={total} onChange={paginationPage} page={page} limit={limit} />
       </Box>
     </Box>
   );

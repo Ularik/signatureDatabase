@@ -17,6 +17,13 @@ export interface BlackListIpItem {
   country_source: string;
 }
 
+export interface BlackListIpData {
+  total: number;
+  result: BlackListIpItem[];
+  limit: number;
+  offset: number;
+}
+
 export interface BlackListUrlItem {
   id: number;
   url_source: string;
