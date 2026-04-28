@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import TableItem from "./TableItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 interface TableGeneralProps<T> {
@@ -19,6 +19,10 @@ const TableGeneral = <T extends { id: string | number }>({
   const [rowsCopy, setRowsCopy] = useState<(T & { isCopy: boolean })[]>(
     rows.map((row) => ({ ...row, isCopy: false })),
   );
+
+  useEffect(() => {
+    setRowsCopy(rows.map((row) => ({ ...row, isCopy: false })));
+  }, [rows]); 
 
   const handleCopy = async (id: string | number) => {
     setRowsCopy((prev) =>
@@ -40,7 +44,7 @@ const TableGeneral = <T extends { id: string | number }>({
         flexDirection: "column",
         gap: "11px",
         color: "#FFFFFF",
-        minHeight: '300px'
+        minHeight: "300px",
       }}
     >
       <Box

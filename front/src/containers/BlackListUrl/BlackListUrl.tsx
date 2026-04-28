@@ -1,14 +1,19 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/material";
-import InputElement from "../components/UI/InputElement/InputElement";
-import SearchInput from "../components/SearchInput/SearchInput";
-import PaginationCustom from "../components/UI/Pagination/PaginationCustom";
-import TableGeneral from "../components/TableGeneral/TableGeneral";
-import InfoCardsLinks from "../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
-import UrlIcon from "../components/UI/Icons/UrlIcon";
-import UrlLiteIcon from "../components/UI/Icons/UrlLiteIcon";
-import ArrowIcon from "../components/UI/Icons/ArrowIcon";
-import CalendarIcon from "../components/UI/Icons/CalendarIcon";
+import InputElement from "../../components/UI/InputElement/InputElement";
+import SearchInput from "../../components/SearchInput/SearchInput";
+import PaginationCustom from "../../components/UI/Pagination/PaginationCustom";
+import TableGeneral from "../../components/TableGeneral/TableGeneral";
+import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
+import UrlIcon from "../../components/UI/Icons/UrlIcon";
+import UrlLiteIcon from "../../components/UI/Icons/UrlLiteIcon";
+import ArrowIcon from "../../components/UI/Icons/ArrowIcon";
+import CalendarIcon from "../../components/UI/Icons/CalendarIcon";
+import { getUrlList } from "./store/urlThunks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectUrlList, selectUrlListLoading, selectUrlListError, selectUrlLimit, selectUrlOffset, selectUrlListTotal } from "./store/urlSelectors";
+import { useEffect, useState } from "react";
+
 
 const iconsStyle = {
   width: { xs: "16px", sm: "24px" },
@@ -22,33 +27,22 @@ const arrowIconStyle = {
 };
 
 const BlackListUrl = () => {
-  const rows = [
-    {
-      id: "1",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "2024",
-    },
-    {
-      id: "2",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "2024",
-    },
-    {
-      id: "3",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "2024",
-    },
-    {
-      id: "4",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "2024",
-    },
-    {
-      id: "5",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "2024",
-    },
-  ];
+  const dispatch = useAppDispatch();
+
+  const [page, setPage] = useState<number>(1);
+
+  const rows = useAppSelector(selectUrlList);
+  const total = useAppSelector(selectUrlListTotal);
+  const limit = useAppSelector(selectUrlLimit);
+
+  const paginationPage = (page: number) => {
+    setPage(page);
+  }
+
+  useEffect(() => {
+    dispatch(getUrlList({ limit, offset: (page - 1) * 10 }));
+  }, [dispatch, page]);
+
   const titles = [
     <>
       <UrlIcon
@@ -100,7 +94,7 @@ const BlackListUrl = () => {
         <SearchInput />
       </Box>
       <Box
-        borderRadius={{xs: "10px", md: "20px"}}
+        borderRadius={{ xs: "10px", md: "20px" }}
         border={"1px solid #486084"}
         padding={{ xs: "15px 0", md: "7px 0 19px" }}
         marginBottom={"13px"}
@@ -112,7 +106,7 @@ const BlackListUrl = () => {
       </Box>
 
       <Box marginLeft={"auto"}>
-        <PaginationCustom total={55} />
+        <PaginationCustom total={total} page={page} onChange={paginationPage} />
       </Box>
     </Box>
   );

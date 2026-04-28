@@ -1,17 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { GlobalError, BlackListCompromiseItem } from "../../../types";
-import { getCompromises } from "./CompromiseThunks";
+import { getCompromises } from "./compromiseThunks";
 
 export interface CompromiseState {
   compromises: BlackListCompromiseItem[];
   fetchLoading: boolean;
   fetchError: GlobalError | null;
+  total: number;
+  limit: number;
+  offset: number;
 }
 
 const initialState: CompromiseState = {
     compromises: [],
     fetchLoading: false,
     fetchError: null,
+    total: 0,
+    limit: 9,
+    offset: 0,
 };
 
 export const compromisesSlice = createSlice({
@@ -24,7 +30,10 @@ export const compromisesSlice = createSlice({
     });
     builder.addCase(getCompromises.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
-      state.compromises = payload;
+      state.compromises = payload.result !== undefined ? payload.result : [];
+      state.total = payload.total;
+      state.limit = payload.limit;
+      state.offset = payload.offset;
     });
     builder.addCase(getCompromises.rejected, (state, { payload: error }) => {
       state.fetchLoading = false;

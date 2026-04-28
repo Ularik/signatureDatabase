@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/es/storage";
 import { usersReducer } from "../components/user/store/userSlice";
 import { compromisesRouter } from "../containers/CompromiseIdentity/store/compromiseSlice";
+import { ipRouter } from "../containers/BlackListIp/store/ipSlice";
 import {
   FLUSH,
   PAUSE,
@@ -12,6 +13,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
+import { urlRouter } from "../containers/BlackListUrl/store/urlSlice";
 
 
 const usersPersistConfig = {
@@ -23,6 +25,8 @@ const usersPersistConfig = {
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
   compromises: compromisesRouter,
+  blackListIp: ipRouter,
+  blackListUrl: urlRouter
 });
 
 export const store = configureStore({

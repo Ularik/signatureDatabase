@@ -5,11 +5,29 @@ export interface RowTable {
   thirdColumn?: string;
 }
 
+export interface Pagination {
+  limit: number;
+  offset: number;
+}
+
 export interface BlackListIpItem {
   id: number;
   ip_source: string;
   attack_date: number;
   country_source: string;
+}
+
+export interface BlackListUrlItem {
+  id: number;
+  url_source: string;
+  attack_date: number;
+}
+
+export interface BlackListUrlData {
+  total: number;
+  result: BlackListUrlItem[];
+  limit: number;
+  offset: number;
 }
 
 export interface BlackListCompromiseItem {
@@ -20,18 +38,11 @@ export interface BlackListCompromiseItem {
   response_measures: string;
 }
 
-export interface BlackListIpItemCopy {
-  id: number;
-  ip_source: string;
-  attack_date: number;
-  country_source: string;
-  isCopy: boolean;
-}
-
-interface RowsCopy {
-  id: string;
-  value: string;
-  isCopy: boolean;
+export interface BlackListCompromiseData {
+  total: number;
+  result: BlackListCompromiseItem[];
+  limit: number;
+  offset: number;
 }
 
 

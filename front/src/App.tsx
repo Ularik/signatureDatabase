@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router";
 import BackLogo from "./components/UI/BackLogo/BackLogo";
 import Home from "./containers/Home";
-import BlackListIp from "./containers/BlackListIp";
-import BlackListUrl from "./containers/BlackListUrl";
+import BlackListIp from "./containers/BlackListIp/BlackListIp";
+import BlackListUrl from "./containers/BlackListUrl/BlackListUrl";
 import { Container, Typography } from "@mui/material";
 import Header from "./components/UI/Header/Header";
 import GlobalStyles from "@mui/material/GlobalStyles";

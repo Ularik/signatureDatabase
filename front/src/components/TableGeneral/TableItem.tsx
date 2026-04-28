@@ -73,6 +73,11 @@ const TableItem = <T extends { id: string | number }>({
             wordBreak: "break-word", // Чтобы длинные слова не ломали сетку
             minWidth: 0, // Важно для предотвращения распирания в grid/flex
             fontSize: { xs: "12px", sm: "14px", md: "18px" },
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: 2, // Ограничение в 2 строки (можно менять)
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           {value}

@@ -14,8 +14,8 @@ import TableGeneral from "../../components/TableGeneral/TableGeneral";
 import ModalDescription from "../../components/UI/ModalDescription/ModalDescription";
 import ArrowIcon from "../../components/UI/Icons/ArrowIcon";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { getCompromises } from "./store/CompromiseThunks";
-import { selectCompromises } from "./store/compromiseSelectors";
+import { getCompromises } from "./store/compromiseThunks";
+import { selectCompromises, selectCompromisesTotal, selectCompromisesLimit } from "./store/compromiseSelectors";
 
 
 const arrowIconStyle = {
@@ -48,15 +48,28 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
   };
 
   const dispatch = useAppDispatch();
-  const rows = useAppSelector(selectCompromises)
+  const total = useAppSelector(selectCompromisesTotal);
+  const limit = useAppSelector(selectCompromisesLimit);
+  const rows = useAppSelector(selectCompromises);
+
+  const mappedRows = rows.map(row => (
+    {id: row.id, cve: row.cve, signature: row.signature, description: row.description}
+  ));
+
+  const localPage = localStorage.getItem('page');
+  const [page, setPage] = useState<number>(localPage ? JSON.parse(localPage) : 1);
+  const paginationPage = (page: number) => {
+    setPage(page);
+    localStorage.setItem('page', JSON.stringify(page));
+  };
 
   useEffect(() => {
     try {
-      dispatch(getCompromises())
+      if (user) dispatch(getCompromises({ limit: limit, offset: (page - 1) * limit }));
     } catch(err) {
       console.log(err);
     }
-  }, [dispatch])
+  }, [dispatch, page, user])
 
   const titles = [
     <>
@@ -111,7 +124,7 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
       >
         <InputElement />
         {user ? (
-          <TableGeneral onClick={openModal} titles={titles} rows={rows} />
+          <TableGeneral onClick={openModal} titles={titles} rows={mappedRows} />
         ) : (
           <NotAuthTable />
         )}
@@ -125,7 +138,12 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
       </Box>
 
       <Box marginLeft={"auto"}>
-        <PaginationCustom total={55} />
+        <PaginationCustom
+          total={total}
+          limit={limit}
+          page={page}
+          onChange={paginationPage}
+        />
       </Box>
     </Box>
   );

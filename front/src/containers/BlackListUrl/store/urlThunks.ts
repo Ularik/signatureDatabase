@@ -1,21 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type {
   GlobalError,
-  Pagination,
-  BlackListCompromiseData
+  BlackListUrlItem,
+  BlackListUrlData
 } from "../../../types";
 import axiosApi from "../../../axiosApi";
 import { isAxiosError } from "axios";
 
-export const getCompromises = createAsyncThunk<
-  BlackListCompromiseData,
-  Pagination,
+export const getUrlList = createAsyncThunk<
+  BlackListUrlData,
+  {limit: number, offset: number},
   { rejectValue: GlobalError }
->("compromises/getCompromises", async ({ limit, offset }, { rejectWithValue }) => {
+>("url/getUrlList", async ({limit, offset}, { rejectWithValue }) => {
   try {
-    const res = await axiosApi.get<BlackListCompromiseData>(
-      `/api/cti/threat-list?limit=${limit}&offset=${offset}`,
-    );
+    const res = await axiosApi.get<BlackListUrlData>(`/api/cti/black-list-url?limit=${limit}&offset=${offset}`);
     return res.data;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {

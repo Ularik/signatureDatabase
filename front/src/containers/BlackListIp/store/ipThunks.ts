@@ -1,20 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type {
   GlobalError,
-  Pagination,
-  BlackListCompromiseData
+  BlackListIpItem
 } from "../../../types";
 import axiosApi from "../../../axiosApi";
 import { isAxiosError } from "axios";
 
-export const getCompromises = createAsyncThunk<
-  BlackListCompromiseData,
-  Pagination,
+export const getIpList = createAsyncThunk<
+  BlackListIpItem[],
+  void,
   { rejectValue: GlobalError }
->("compromises/getCompromises", async ({ limit, offset }, { rejectWithValue }) => {
+>("ip/getIpList", async (_, { rejectWithValue }) => {
   try {
-    const res = await axiosApi.get<BlackListCompromiseData>(
-      `/api/cti/threat-list?limit=${limit}&offset=${offset}`,
+    const res = await axiosApi.get<BlackListIpItem[]>(
+      "/api/cti/black-list-ip",
     );
     return res.data;
   } catch (e) {

@@ -5,23 +5,23 @@ import DownloadIcon from "../Icons/DownloadIcon";
 
 interface Props {
   total: number;
+  limit: number;
+  page: number;
+  onChange: (page: number) => void;
 }
 
 const fontsStyle = {
   fontSize: {xs: '12px', sm: '14px', md: "18px"},
 }
 
-const PaginationCustom: React.FC<Props> = ({ total }) => {
-  const countPages = Math.ceil(total / 9);
-
-  // Создаем массив всех чисел страниц
-  const allPages = Array.from({ length: countPages }, (_, i) => i + 1);
-  const lastPage = allPages[allPages.length - 1];
+const PaginationCustom: React.FC<Props> = ({ total, limit, page, onChange }) => {
+  const countPages = Math.ceil(total / limit);
 
   // Вспомогательный компонент для отрисовки кружка страницы
   const PageCircle = ({ n }: { n: number }) => (
     <Box
       key={n}
+      onClick={() => onChange(n)}
       sx={{
         ...fontsStyle,
         cursor: "pointer",
@@ -34,6 +34,10 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
         borderRadius: "50%",
         transition: "0.3s",
         // Используем background для градиента
+        background:
+          page !== n
+            ? "inherit"
+            : "linear-gradient(to bottom, #EF8422, #A86222)",
         "&:hover": {
           background: "linear-gradient(to bottom, #EF8422, #A86222)",
           borderColor: "transparent", // Опционально: убираем белую рамку при ховере
@@ -43,6 +47,46 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
       {n}
     </Box>
   );
+
+  // Логика определения видимых страниц
+  const renderPages = () => {
+    const pages = [];
+    const range = 1; // Сколько страниц показывать по бокам от текущей
+
+    if (countPages <= 5) {
+      // Если страниц мало — выводим все
+      for (let i = 1; i <= countPages; i++) pages.push(<PageCircle key={i} n={i} />);
+    } else {
+      // 1. Всегда показываем первую страницу
+      pages.push(<PageCircle key={1} n={1} />);
+
+      // 2. Рисуем левое многоточие, если мы далеко от начала
+      if (page > range + 2) {
+        pages.push(<Typography key="dots-left">...</Typography>);
+      }
+
+      // 3. Определяем границы средних страниц
+      let start = Math.max(2, page - range);
+      let end = Math.min(countPages - 1, page + range);
+
+      // Корректировка, чтобы всегда было видно хотя бы 3 кнопки в середине (для удобства клика)
+      if (page <= range + 2) end = 4;
+      if (page >= countPages - range - 1) start = countPages - 3;
+
+      for (let i = start; i <= end; i++) {
+        pages.push(<PageCircle key={i} n={i} />);
+      }
+
+      // 4. Рисуем правое многоточие, если мы далеко от конца
+      if (page < countPages - range - 1) {
+        pages.push(<Typography key="dots-right">...</Typography>);
+      }
+
+      // 5. Всегда показываем последнюю страницу
+      pages.push(<PageCircle key={countPages} n={countPages} />);
+    }
+    return pages;
+  };
 
   return (
     <Box
@@ -54,6 +98,9 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
     >
       {/* Кнопка Назад */}
       <Box
+        onClick={() => {
+          if (page >= 2) onChange(page - 1);
+        }}
         sx={{
           ...fontsStyle,
           border: "1px solid #FFFFFF",
@@ -78,24 +125,13 @@ const PaginationCustom: React.FC<Props> = ({ total }) => {
       </Box>
 
       {/* Основная логика отрисовки */}
-      {countPages <= 5 ? (
-        // Если страниц 5 или меньше — выводим все
-        allPages.map((page) => <PageCircle key={page} n={page} />)
-      ) : (
-        // Если страниц больше 5 — выводим сокращенно
-        <>
-          {allPages.slice(0, 3).map((page) => (
-            <PageCircle key={page} n={page} />
-          ))}
-
-          <Typography>...</Typography>
-
-          <PageCircle n={lastPage} />
-        </>
-      )}
+      {renderPages()}
 
       {/* Кнопка Вперед */}
       <Box
+        onClick={() => {
+          if (page < countPages) onChange(page + 1);
+        }}
         sx={{
           ...fontsStyle,
           border: "1px solid #FFFFFF",

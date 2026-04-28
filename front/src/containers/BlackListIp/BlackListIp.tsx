@@ -1,14 +1,19 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/material";
-import PaginationCustom from "../components/UI/Pagination/PaginationCustom";
-import InputElement from "../components/UI/InputElement/InputElement";
-import TableGeneral from "../components/TableGeneral/TableGeneral";
-import InfoCardsLinks from "../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
-import SearchInput from "../components/SearchInput/SearchInput";
-import IpIcon from "../components/UI/Icons/IpIcon";
-import ArrowIcon from "../components/UI/Icons/ArrowIcon";
-import GeolocationIcon from "../components/UI/Icons/GeolocationIcon";
-import CalendarIcon from "../components/UI/Icons/CalendarIcon";
+import PaginationCustom from "../../components/UI/Pagination/PaginationCustom";
+import InputElement from "../../components/UI/InputElement/InputElement";
+import TableGeneral from "../../components/TableGeneral/TableGeneral";
+import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
+import SearchInput from "../../components/SearchInput/SearchInput";
+import IpIcon from "../../components/UI/Icons/IpIcon";
+import ArrowIcon from "../../components/UI/Icons/ArrowIcon";
+import GeolocationIcon from "../../components/UI/Icons/GeolocationIcon";
+import CalendarIcon from "../../components/UI/Icons/CalendarIcon";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectIpList, selectIpListError, selectIpListLoading } from "./store/ipSelectors";
+import { useEffect } from "react";
+import { getIpList } from "./store/ipThunks";
+
 
 const iconsStyle = {
   width: { xs: "16px", sm: "24px" },
@@ -23,39 +28,12 @@ const arrowIconStyle = {
 };
 
 const BlackListIp = () => {
+  const dispatch = useAppDispatch();
+  const rows = useAppSelector(selectIpList);
 
-  const rows = [
-    {
-      id: "1",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "Кыргызская Республика",
-      thirdColumn: "2024",
-    },
-    {
-      id: "2",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "Кыргызская Республика",
-      thirdColumn: "2024",
-    },
-    {
-      id: "3",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "Кыргызская Республика",
-      thirdColumn: "2024",
-    },
-    {
-      id: "4",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "Кыргызская Республика",
-      thirdColumn: "2024",
-    },
-    {
-      id: "5",
-      firstColumn: "https://docs.fortinet.com/product/fortiproxy/7.0",
-      secondColumn: "Кыргызская Республика",
-      thirdColumn: "2024",
-    },
-  ];
+  useEffect(() => {
+    dispatch(getIpList());
+  }, [dispatch])
 
   const titles = [
     <>
