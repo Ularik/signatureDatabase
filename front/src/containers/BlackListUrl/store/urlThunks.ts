@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type {
   GlobalError,
-  BlackListUrlItem,
+  SearchFilters,
   BlackListUrlData
 } from "../../../types";
 import axiosApi from "../../../axiosApi";
@@ -9,11 +9,15 @@ import { isAxiosError } from "axios";
 
 export const getUrlList = createAsyncThunk<
   BlackListUrlData,
-  {limit: number, offset: number},
+  SearchFilters,
   { rejectValue: GlobalError }
->("url/getUrlList", async ({limit, offset}, { rejectWithValue }) => {
+>("url/getUrlList", async ({ item, limit, offset }, { rejectWithValue }) => {
+
+  let url = `/api/cti/black-list-url?limit=${limit}&offset=${offset}`;
+  if (item) url += `&${item.key}=${item.item}`;
+
   try {
-    const res = await axiosApi.get<BlackListUrlData>(`/api/cti/black-list-url?limit=${limit}&offset=${offset}`);
+    const res = await axiosApi.get<BlackListUrlData>(url);
     return res.data;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {

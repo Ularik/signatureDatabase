@@ -1,11 +1,10 @@
-export interface RowTable {
-  id: string;
-  firstColumn: string;
-  secondColumn: string;
-  thirdColumn?: string;
+export interface SearchFilterCompromiseItems {
+  item: string | number;
+  key: string;
 }
 
-export interface Pagination {
+export interface SearchFilters {
+  item?: SearchFilterCompromiseItems;
   limit: number;
   offset: number;
 }
@@ -93,10 +92,4 @@ export interface ValidationError {
   message: string;
   name: string;
   _message: string;
-}
-
-
-export interface CompromiseItem {
-  discription: string;
-  securityMeasures: string;
 }

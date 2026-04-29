@@ -5,13 +5,30 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 import { Grow } from "@mui/material";
+import type { SearchFilterCompromiseItems } from "../../../types";
 
-const InputElement = () => {
+
+interface Props {
+  searchFilters: SearchFilterCompromiseItems[];
+  searchFunc: (item: SearchFilterCompromiseItems) => void;
+}
+
+const InputElement: React.FC<Props> = ({ searchFilters, searchFunc }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchItem, setSearchItem] = useState("");
+
+  const [searchQueryParams, setSearchQueryParams] =
+    useState<SearchFilterCompromiseItems>(searchFilters[0]);
+
+  const search = () => {
+    if (searchItem.trim() === "") return;
+  
+    searchFunc({...searchQueryParams, item: searchItem});
+  };
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
-  }
+  };
 
   return (
     <>
@@ -72,21 +89,31 @@ const InputElement = () => {
                 flexDirection: "column",
               }}
             >
-              <Button variant="text" sx={{ color: "white" }}>
-                ПО УМОЛЧАНИЮ
-              </Button>
-              <Button variant="text" sx={{ color: "white" }}>
-                СТРАНА
-              </Button>
-              <Button variant="text" sx={{ color: "white" }}>
-                IP АДРЕС
-              </Button>
+              {searchFilters.map((value) => (
+                <Button
+                  onClick={() => setSearchQueryParams(value)}
+                  key={value.key}
+                  variant="text"
+                  sx={{ color: "white" }}
+                >
+                  {value.item}
+                </Button>
+              ))}
             </Box>
           </Grow>
         </Box>
 
         <TextField
-          placeholder="Поиск..." 
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSearchItem(e.target.value)
+          }
+          value={searchItem}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              search();
+            }
+          }}
+          placeholder="Поиск..."
           variant="outlined"
           fullWidth
           sx={{
@@ -121,6 +148,7 @@ const InputElement = () => {
             endAdornment: (
               <InputAdornment position="end">
                 <SearchIcon
+                  onClick={search}
                   sx={{
                     color: "#000000",
                     fontSize: "20px",

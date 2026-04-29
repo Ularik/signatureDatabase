@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectIpList, selectIpListError, selectIpListLoading, selectIpTotal, selectIpLimit } from "./store/ipSelectors";
 import { useEffect, useState } from "react";
 import { getIpList } from "./store/ipThunks";
+import type { SearchFilterCompromiseItems } from "../../types";
 
 
 const iconsStyle = {
@@ -27,6 +28,12 @@ const arrowIconStyle = {
   height: "22px",
 };
 
+const searchFilters = [
+  { item: "страна", key: "country_source" },
+  { item: "ip-адресс", key: "ip_source" },
+];
+
+
 const BlackListIp = () => {
   const dispatch = useAppDispatch();
   const rows = useAppSelector(selectIpList);
@@ -40,9 +47,20 @@ const BlackListIp = () => {
     localStorage.setItem('page', JSON.stringify(page));
   };
 
+  const [searchParams, setSearchParams] = useState<SearchFilterCompromiseItems | null>(null);
+  
+  const setSearch = (item: SearchFilterCompromiseItems) => {
+    setSearchParams(item);
+  };
+
   useEffect(() => {
-    dispatch(getIpList({ limit: limit, offset: (page - 1) * limit }));
-  }, [dispatch, page]);
+    
+    if (searchParams !== null) {
+      dispatch(getIpList({ item: searchParams, limit: limit, offset: (page - 1) * 0 }));
+    } else {
+      dispatch(getIpList({ limit: limit, offset: (page - 1) * limit }));
+    }
+  }, [dispatch, page, searchParams]);
 
 
   const titles = [
@@ -95,13 +113,18 @@ const BlackListIp = () => {
         padding={"7px 0 19px"}
         marginBottom={"13px"}
       >
-        <InputElement />
+        <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
 
         <TableGeneral titles={titles} rows={rows} />
       </Box>
 
       <Box marginLeft={"auto"}>
-        <PaginationCustom total={total} onChange={paginationPage} page={page} limit={limit} />
+        <PaginationCustom
+          total={total}
+          onChange={paginationPage}
+          page={page}
+          limit={limit}
+        />
       </Box>
     </Box>
   );

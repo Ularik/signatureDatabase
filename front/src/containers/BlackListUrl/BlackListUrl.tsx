@@ -13,6 +13,7 @@ import { getUrlList } from "./store/urlThunks";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectUrlList, selectUrlListLoading, selectUrlListError, selectUrlLimit, selectUrlOffset, selectUrlListTotal } from "./store/urlSelectors";
 import { useEffect, useState } from "react";
+import type { SearchFilterCompromiseItems } from "../../types";
 
 
 const iconsStyle = {
@@ -25,6 +26,11 @@ const arrowIconStyle = {
   width: "18px",
   height: "22px",
 };
+
+const searchFilters = [
+  { item: "url-адресс", key: "url_source" },
+  { item: "Дата обнаружения", key: "attack_date" },
+];
 
 const BlackListUrl = () => {
   const dispatch = useAppDispatch();
@@ -39,9 +45,21 @@ const BlackListUrl = () => {
     setPage(page);
   }
 
+  const [searchParams, setSearchParams] = useState<SearchFilterCompromiseItems | null>(null);
+
+  const setSearch = (item: SearchFilterCompromiseItems) => {
+    setSearchParams(item);
+    console.log(searchParams);
+  };
+
   useEffect(() => {
-    dispatch(getUrlList({ limit, offset: (page - 1) * 10 }));
-  }, [dispatch, page]);
+
+    if (searchParams !== null) {
+      dispatch(getUrlList({ item: searchParams, limit: limit, offset: (page - 1) * limit }));
+    } else {
+      dispatch(getUrlList({ limit: limit, offset: (page - 1) * limit }));
+    }
+  }, [dispatch, page, searchParams]);
 
   const titles = [
     <>
@@ -100,13 +118,18 @@ const BlackListUrl = () => {
         marginBottom={"13px"}
         overflow={"hidden"}
       >
-        <InputElement />
+        <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
 
         <TableGeneral titles={titles} rows={rows} />
       </Box>
 
       <Box marginLeft={"auto"}>
-        <PaginationCustom total={total} page={page} onChange={paginationPage} />
+        <PaginationCustom
+          total={total}
+          limit={limit}
+          page={page}
+          onChange={paginationPage}
+        />
       </Box>
     </Box>
   );

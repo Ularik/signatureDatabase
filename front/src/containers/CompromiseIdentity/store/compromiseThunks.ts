@@ -1,27 +1,29 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type {
   GlobalError,
-  Pagination,
-  BlackListCompromiseData
+  SearchFilters,
+  BlackListCompromiseData,
 } from "../../../types";
 import axiosApi from "../../../axiosApi";
 import { isAxiosError } from "axios";
 
 export const getCompromises = createAsyncThunk<
   BlackListCompromiseData,
-  Pagination,
+  SearchFilters,
   { rejectValue: GlobalError }
->("compromises/getCompromises", async ({ limit, offset }, { rejectWithValue }) => {
-  try {
-    const res = await axiosApi.get<BlackListCompromiseData>(
-      `/api/cti/threat-list?limit=${limit}&offset=${offset}`,
-    );
-    return res.data;
-  } catch (e) {
-    if (isAxiosError(e) && e.response && e.response.status === 400) {
-      return rejectWithValue(e.response.data);
+>(
+  "compromises/getCompromises",
+  async ({ item, limit, offset }, { rejectWithValue }) => {
+    let url = `/api/cti/threat-list?limit=${limit}&offset=${offset}`;
+    if (item) url += `&${item.key}=${item.item}`;
+    try {
+      const res = await axiosApi.get<BlackListCompromiseData>(url);
+      return res.data;
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data);
+      }
+      throw e;
     }
-    throw e;
-  }
-});
-
+  },
+);

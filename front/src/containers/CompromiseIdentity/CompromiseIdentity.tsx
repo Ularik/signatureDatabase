@@ -5,7 +5,7 @@ import GppMaybeOutlinedIcon from "@mui/icons-material/GppMaybeOutlined";
 import PaginationCustom from "../../components/UI/Pagination/PaginationCustom";
 import NotAuthTable from "../../components/UI/NotAuthTable/NotAuthTable";
 import { useEffect, useState } from "react";
-import type { BlackListCompromiseItem, User } from "../../types";
+import type { BlackListCompromiseItem, SearchFilterCompromiseItems, User } from "../../types";
 import DocIcon from "../../components/UI/Icons/DocIcon";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
@@ -28,6 +28,11 @@ const iconsStyle = {
   width: { xs: "16px", sm: "24px" },
   marginRight: { xs: "3px", sm: "10px" },
 };
+
+const searchFilters = [
+  { item: "поиск по cve", key: "cve" },
+  { item: "поиск по сигнатуре", key: "signature" },
+];
 
 interface Props {
   user: User | null;
@@ -63,13 +68,34 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
     localStorage.setItem('page', JSON.stringify(page));
   };
 
+  
+  const [searchParams, setSearchParams] =
+    useState<SearchFilterCompromiseItems | null>(null);
+
+  const setSearch = (item: SearchFilterCompromiseItems) => {
+    setSearchParams(item);
+  };
+
   useEffect(() => {
     try {
-      if (user) dispatch(getCompromises({ limit: limit, offset: (page - 1) * limit }));
-    } catch(err) {
+      if (user)
+        if (searchParams !== null) {
+          dispatch(
+            getCompromises({
+              item: searchParams,
+              limit: limit,
+              offset: (page - 1) * limit,
+            }),
+          );
+        } else {
+          dispatch(
+            getCompromises({ limit: limit, offset: (page - 1) * limit }),
+          );
+        }
+    } catch (err) {
       console.log(err);
     }
-  }, [dispatch, page, user])
+  }, [dispatch, page, user, searchParams]);
 
   const titles = [
     <>
@@ -122,7 +148,8 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
         marginBottom={"13px"}
         overflow={"hidden"}
       >
-        <InputElement />
+        <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
+
         {user ? (
           <TableGeneral onClick={openModal} titles={titles} rows={mappedRows} />
         ) : (
