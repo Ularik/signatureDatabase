@@ -1,10 +1,10 @@
-export interface SearchFilterCompromiseItems {
+export interface SearchQueryParamsItems {
   item: string | number;
   key: string;
 }
 
 export interface SearchFilters {
-  item?: SearchFilterCompromiseItems;
+  item?: SearchQueryParamsItems;
   limit: number;
   offset: number;
 }

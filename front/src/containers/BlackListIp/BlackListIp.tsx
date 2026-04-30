@@ -51,12 +51,13 @@ const BlackListIp = () => {
   
   const setSearch = (item: SearchFilterCompromiseItems) => {
     setSearchParams(item);
+    setPage(1);
   };
 
   useEffect(() => {
     
     if (searchParams !== null) {
-      dispatch(getIpList({ item: searchParams, limit: limit, offset: (page - 1) * 0 }));
+      dispatch(getIpList({ item: searchParams, limit: limit, offset: (page - 1) * limit }));
     } else {
       dispatch(getIpList({ limit: limit, offset: (page - 1) * limit }));
     }

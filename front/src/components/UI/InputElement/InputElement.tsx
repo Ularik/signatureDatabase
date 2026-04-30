@@ -5,12 +5,12 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 import { Grow } from "@mui/material";
-import type { SearchFilterCompromiseItems } from "../../../types";
+import type { SearchQueryParamsItems } from "../../../types";
 
 
 interface Props {
-  searchFilters: SearchFilterCompromiseItems[];
-  searchFunc: (item: SearchFilterCompromiseItems) => void;
+  searchFilters: SearchQueryParamsItems[];
+  searchFunc: (item: SearchQueryParamsItems) => void;
 }
 
 const InputElement: React.FC<Props> = ({ searchFilters, searchFunc }) => {
@@ -18,7 +18,7 @@ const InputElement: React.FC<Props> = ({ searchFilters, searchFunc }) => {
   const [searchItem, setSearchItem] = useState("");
 
   const [searchQueryParams, setSearchQueryParams] =
-    useState<SearchFilterCompromiseItems>(searchFilters[0]);
+    useState<SearchQueryParamsItems>(searchFilters[0]);
 
   const search = () => {
     if (searchItem.trim() === "") return;
@@ -26,8 +26,9 @@ const InputElement: React.FC<Props> = ({ searchFilters, searchFunc }) => {
     searchFunc({...searchQueryParams, item: searchItem});
   };
 
-  const toggleMenu = () => {
+  const toggleMenu = (filter?: SearchQueryParamsItems) => {
     setIsOpen((prev) => !prev);
+    if (filter) setSearchQueryParams(filter);
   };
 
   return (
@@ -42,7 +43,7 @@ const InputElement: React.FC<Props> = ({ searchFilters, searchFunc }) => {
       >
         <Box position={"relative"}>
           <Button
-            onClick={toggleMenu}
+            onClick={() => toggleMenu()}
             sx={{
               "& .MuiButton-startIcon": {
                 marginRight: "4px", // По умолчанию 8px
@@ -91,10 +92,14 @@ const InputElement: React.FC<Props> = ({ searchFilters, searchFunc }) => {
             >
               {searchFilters.map((value) => (
                 <Button
-                  onClick={() => setSearchQueryParams(value)}
+                  onClick={() => toggleMenu(value)}
                   key={value.key}
                   variant="text"
-                  sx={{ color: "white" }}
+                  sx={{
+                    color: "white",
+                    background:
+                      searchQueryParams === value ? "#1B3373" : "inherit",
+                  }}
                 >
                   {value.item}
                 </Button>
