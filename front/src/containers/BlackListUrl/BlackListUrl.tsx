@@ -1,10 +1,6 @@
-import { Typography } from "@mui/material";
-import { Box } from "@mui/material";
 import InputElement from "../../components/UI/InputElement/InputElement";
-import SearchInput from "../../components/SearchInput/SearchInput";
 import PaginationCustom from "../../components/UI/Pagination/PaginationCustom";
 import TableGeneral from "../../components/TableGeneral/TableGeneral";
-import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
 import UrlIcon from "../../components/UI/Icons/UrlIcon";
 import UrlLiteIcon from "../../components/UI/Icons/UrlLiteIcon";
 import ArrowIcon from "../../components/UI/Icons/ArrowIcon";
@@ -13,7 +9,11 @@ import { getUrlList } from "./store/urlThunks";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectUrlList, selectUrlListLoading, selectUrlListError, selectUrlLimit, selectUrlOffset, selectUrlListTotal } from "./store/urlSelectors";
 import { useEffect, useState } from "react";
-import type { SearchFilterCompromiseItems } from "../../types";
+import type { SearchQueryParamsItems } from "../../types";
+import GeneralPageLayot from "../../components/GeneralPage/GeneralPage";
+import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
+import { Box } from "@mui/material";
+import SearchInput from "../../components/SearchInput/SearchInput";
 
 
 const iconsStyle = {
@@ -43,19 +43,29 @@ const BlackListUrl = () => {
 
   const paginationPage = (page: number) => {
     setPage(page);
-  }
+  };
 
-  const [searchParams, setSearchParams] = useState<SearchFilterCompromiseItems | null>(null);
+  const [searchParams, setSearchParams] =
+    useState<SearchQueryParamsItems | null>(null);
 
-  const setSearch = (item: SearchFilterCompromiseItems) => {
-    setSearchParams(item);
-    console.log(searchParams);
+  const setSearch = (item: SearchQueryParamsItems) => {
+    if (item.key === "current") {
+      setSearchParams({ ...item, key: "url_source" });
+    } else {
+      setSearchParams(item);
+    }
+    setPage(1);
   };
 
   useEffect(() => {
-
     if (searchParams !== null) {
-      dispatch(getUrlList({ item: searchParams, limit: limit, offset: (page - 1) * limit }));
+      dispatch(
+        getUrlList({
+          item: searchParams,
+          limit: limit,
+          offset: (page - 1) * limit,
+        }),
+      );
     } else {
       dispatch(getUrlList({ limit: limit, offset: (page - 1) * limit }));
     }
@@ -87,51 +97,32 @@ const BlackListUrl = () => {
   ];
 
   return (
-    <Box maxWidth={"1326px"} marginInline={"auto"} paddingBottom={"51px"}>
-      <Box
-        textAlign={"center"}
-        color="#FFFFFF"
-        marginBottom={{ xs: "10px", md: "24px" }}
-      >
-        <Typography
-          fontSize={{ xs: "20px", sm: "30px", md: "40px" }}
-          marginBottom={{ xs: "5px", md: "10px" }}
-        >
-          Black list URL
-        </Typography>
-        <Typography fontSize={{ xs: "12px", sm: "16px", md: "20px" }}>
-          Список URL, признанных вредоносными
-        </Typography>
-      </Box>
+    <GeneralPageLayot
+      title="Black list URL"
+      subtitle="Список URL, признанных вредоносными"
+      topActions={
+        <>
+          <Box marginBottom={"20px"} display={{ xs: "block", sm: "none" }}>
+            <InfoCardsLinks />
+          </Box>
 
-      <Box marginBottom={"20px"} display={{ xs: "block", sm: "none" }}>
-        <InfoCardsLinks />
-      </Box>
-
-      <Box display={{ xs: "block", sm: "none" }}>
-        <SearchInput />
-      </Box>
-      <Box
-        borderRadius={{ xs: "10px", md: "20px" }}
-        border={"1px solid #486084"}
-        padding={{ xs: "15px 0", md: "7px 0 19px" }}
-        marginBottom={"13px"}
-        overflow={"hidden"}
-      >
-        <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
-
-        <TableGeneral titles={titles} rows={rows} />
-      </Box>
-
-      <Box marginLeft={"auto"}>
+          <Box display={{ xs: "block", sm: "none" }}>
+            <SearchInput searchFunc={setSearch} />
+          </Box>
+        </>
+      }
+      pagination={
         <PaginationCustom
           total={total}
           limit={limit}
           page={page}
           onChange={paginationPage}
         />
-      </Box>
-    </Box>
+      }
+    >
+      <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
+      <TableGeneral titles={titles} rows={rows} />
+    </GeneralPageLayot>
   );
 };
 

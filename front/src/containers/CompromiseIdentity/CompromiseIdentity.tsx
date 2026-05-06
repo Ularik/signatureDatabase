@@ -1,21 +1,18 @@
-import { Typography } from "@mui/material";
-import { Box } from "@mui/material";
 import InputElement from "../../components/UI/InputElement/InputElement";
 import GppMaybeOutlinedIcon from "@mui/icons-material/GppMaybeOutlined";
 import PaginationCustom from "../../components/UI/Pagination/PaginationCustom";
 import NotAuthTable from "../../components/UI/NotAuthTable/NotAuthTable";
 import { useEffect, useState } from "react";
-import type { BlackListCompromiseItem, SearchFilterCompromiseItems, User } from "../../types";
+import type { BlackListCompromiseItem, SearchQueryParamsItems, User } from "../../types";
 import DocIcon from "../../components/UI/Icons/DocIcon";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
-import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
-import SearchInput from "../../components/SearchInput/SearchInput";
 import TableGeneral from "../../components/TableGeneral/TableGeneral";
 import ModalDescription from "../../components/UI/ModalDescription/ModalDescription";
 import ArrowIcon from "../../components/UI/Icons/ArrowIcon";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getCompromises } from "./store/compromiseThunks";
 import { selectCompromises, selectCompromisesTotal, selectCompromisesLimit } from "./store/compromiseSelectors";
+import GeneralPageLayot from "../../components/GeneralPage/GeneralPage";
 
 
 const arrowIconStyle = {
@@ -57,23 +54,28 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
   const limit = useAppSelector(selectCompromisesLimit);
   const rows = useAppSelector(selectCompromises);
 
-  const mappedRows = rows.map(row => (
-    {id: row.id, cve: row.cve, signature: row.signature, description: row.description}
-  ));
+  const mappedRows = rows.map((row) => ({
+    id: row.id,
+    cve: row.cve,
+    signature: row.signature,
+    description: row.description,
+  }));
 
-  const localPage = localStorage.getItem('page');
-  const [page, setPage] = useState<number>(localPage ? JSON.parse(localPage) : 1);
+  const localPage = localStorage.getItem("page");
+  const [page, setPage] = useState<number>(
+    localPage ? JSON.parse(localPage) : 1,
+  );
   const paginationPage = (page: number) => {
     setPage(page);
-    localStorage.setItem('page', JSON.stringify(page));
+    localStorage.setItem("page", JSON.stringify(page));
   };
 
-  
   const [searchParams, setSearchParams] =
-    useState<SearchFilterCompromiseItems | null>(null);
+    useState<SearchQueryParamsItems | null>(null);
 
-  const setSearch = (item: SearchFilterCompromiseItems) => {
+  const setSearch = (item: SearchQueryParamsItems) => {
     setSearchParams(item);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -116,37 +118,18 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
   ];
 
   return (
-    <Box maxWidth={"1326px"} marginInline={"auto"} paddingBottom={"51px"}>
-      <Box
-        textAlign={"center"}
-        color="#FFFFFF"
-        marginBottom={{ xs: "10px", md: "24px" }}
-      >
-        <Typography
-          fontSize={{ xs: "20px", sm: "30px", md: "40px" }}
-          marginBottom={{ xs: "5px", md: "10px" }}
-        >
-          Идентификаторы компромитации
-        </Typography>
-        <Typography fontSize={{ xs: "12px", sm: "16px", md: "20px" }}>
-          Список вредоносных паттернов и индикаторов
-        </Typography>
-      </Box>
-
-      <Box marginBottom={"20px"} display={{ xs: "block", sm: "none" }}>
-        <InfoCardsLinks />
-      </Box>
-
-      <Box display={{ xs: "block", sm: "none" }}>
-        <SearchInput />
-      </Box>
-      <Box
-        borderRadius={{ xs: "10px", md: "20px" }}
-        border={"1px solid #486084"}
-        position={"relative"}
-        padding={{ xs: "15px 0", md: "7px 0 19px" }}
-        marginBottom={"13px"}
-        overflow={"hidden"}
+    <>
+      <GeneralPageLayot
+        title="Идентификаторы компромитации"
+        subtitle="Список вредоносных паттернов и индикаторов"
+        pagination={
+          <PaginationCustom
+            total={total}
+            limit={limit}
+            page={page}
+            onChange={paginationPage}
+          />
+        }
       >
         <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
 
@@ -155,24 +138,15 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
         ) : (
           <NotAuthTable />
         )}
-        {signature && (
-          <ModalDescription
-            item={signature}
-            isOpen={isOpen}
-            close={() => setIsOpen(false)}
-          />
-        )}
-      </Box>
-
-      <Box marginLeft={"auto"}>
-        <PaginationCustom
-          total={total}
-          limit={limit}
-          page={page}
-          onChange={paginationPage}
+      </GeneralPageLayot>
+      {signature && (
+        <ModalDescription
+          item={signature}
+          isOpen={isOpen}
+          close={() => setIsOpen(false)}
         />
-      </Box>
-    </Box>
+      )}
+    </>
   );
 };
 

@@ -1,10 +1,6 @@
-import { Typography } from "@mui/material";
-import { Box } from "@mui/material";
 import PaginationCustom from "../../components/UI/Pagination/PaginationCustom";
 import InputElement from "../../components/UI/InputElement/InputElement";
 import TableGeneral from "../../components/TableGeneral/TableGeneral";
-import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
-import SearchInput from "../../components/SearchInput/SearchInput";
 import IpIcon from "../../components/UI/Icons/IpIcon";
 import ArrowIcon from "../../components/UI/Icons/ArrowIcon";
 import GeolocationIcon from "../../components/UI/Icons/GeolocationIcon";
@@ -13,7 +9,11 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectIpList, selectIpListError, selectIpListLoading, selectIpTotal, selectIpLimit } from "./store/ipSelectors";
 import { useEffect, useState } from "react";
 import { getIpList } from "./store/ipThunks";
-import type { SearchFilterCompromiseItems } from "../../types";
+import type { SearchQueryParamsItems } from "../../types";
+import GeneralPageLayot from "../../components/GeneralPage/GeneralPage";
+import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
+import { Box } from "@mui/material";
+import SearchInput from "../../components/SearchInput/SearchInput";
 
 
 const iconsStyle = {
@@ -31,6 +31,7 @@ const arrowIconStyle = {
 const searchFilters = [
   { item: "страна", key: "country_source" },
   { item: "ip-адресс", key: "ip_source" },
+  { item: "Год обнаружения", key: "attack_date" },
 ];
 
 
@@ -40,29 +41,41 @@ const BlackListIp = () => {
   const total = useAppSelector(selectIpTotal);
   const limit = useAppSelector(selectIpLimit);
 
-  const localPage = localStorage.getItem('page');
-  const [page, setPage] = useState<number>(localPage ? JSON.parse(localPage) : 1);
+  const localPage = localStorage.getItem("page");
+  const [page, setPage] = useState<number>(
+    localPage ? JSON.parse(localPage) : 1,
+  );
+
   const paginationPage = (page: number) => {
     setPage(page);
-    localStorage.setItem('page', JSON.stringify(page));
+    localStorage.setItem("page", JSON.stringify(page));
   };
 
-  const [searchParams, setSearchParams] = useState<SearchFilterCompromiseItems | null>(null);
-  
-  const setSearch = (item: SearchFilterCompromiseItems) => {
-    setSearchParams(item);
+  const [searchParams, setSearchParams] =
+    useState<SearchQueryParamsItems | null>(null);
+
+  const setSearch = (item: SearchQueryParamsItems) => {
+    if (item.key === 'current') {
+      setSearchParams({ ...item, key: "ip_source" });
+    } else {
+      setSearchParams(item);
+    }
     setPage(1);
   };
 
   useEffect(() => {
-    
     if (searchParams !== null) {
-      dispatch(getIpList({ item: searchParams, limit: limit, offset: (page - 1) * limit }));
+      dispatch(
+        getIpList({
+          item: searchParams,
+          limit: limit,
+          offset: (page - 1) * limit,
+        }),
+      );
     } else {
       dispatch(getIpList({ limit: limit, offset: (page - 1) * limit }));
     }
   }, [dispatch, page, searchParams]);
-
 
   const titles = [
     <>
@@ -83,51 +96,32 @@ const BlackListIp = () => {
   ];
 
   return (
-    <Box maxWidth={"1326px"} marginInline={"auto"} paddingBottom={"51px"}>
-      <Box
-        textAlign={"center"}
-        color="#FFFFFF"
-        marginBottom={{ xs: "10px", md: "24px" }}
-      >
-        <Typography
-          fontSize={{ xs: "20px", sm: "30px", md: "40px" }}
-          marginBottom={{ xs: "5px", md: "10px" }}
-        >
-          Black list IP
-        </Typography>
-        <Typography fontSize={{ xs: "12px", sm: "16px", md: "20px" }}>
-          Список IP-адрессов, признанных вредоносными
-        </Typography>
-      </Box>
+    <GeneralPageLayot
+      title="Black list IP"
+      subtitle="Список IP-адрессов, признанных вредоносными"
+      topActions={
+        <>
+          <Box marginBottom={"20px"} display={{ xs: "block", sm: "none" }}>
+            <InfoCardsLinks />
+          </Box>
 
-      <Box marginBottom={"20px"} display={{ xs: "block", sm: "none" }}>
-        <InfoCardsLinks />
-      </Box>
-
-      <Box display={{ xs: "block", sm: "none" }}>
-        <SearchInput />
-      </Box>
-      <Box
-        borderRadius={{ xs: "10px", md: "20px" }}
-        overflow={"hidden"}
-        border={"1px solid #486084"}
-        padding={"7px 0 19px"}
-        marginBottom={"13px"}
-      >
-        <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
-
-        <TableGeneral titles={titles} rows={rows} />
-      </Box>
-
-      <Box marginLeft={"auto"}>
+          <Box display={{ xs: "block", sm: "none" }}>
+            <SearchInput searchFunc={setSearch}/>
+          </Box>
+        </>
+      }
+      pagination={
         <PaginationCustom
           total={total}
-          onChange={paginationPage}
-          page={page}
           limit={limit}
+          page={page}
+          onChange={paginationPage}
         />
-      </Box>
-    </Box>
+      }
+    >
+      <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
+      <TableGeneral titles={titles} rows={rows} />
+    </GeneralPageLayot>
   );
 };
 

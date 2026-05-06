@@ -64,7 +64,7 @@ const NavBar: React.FC<Props> = ({ user }) => {
           <Box
             fontSize={"18px"}
             component={NavLink}
-            to="#"
+            to="/black-list-url"
             color={"inherit"}
             sx={BtnStyle}
           >
@@ -73,7 +73,7 @@ const NavBar: React.FC<Props> = ({ user }) => {
           <Box
             fontSize={"18px"}
             component={NavLink}
-            to="#"
+            to="/black-list-ip"
             color={"inherit"}
             sx={BtnStyle}
           >
@@ -82,7 +82,7 @@ const NavBar: React.FC<Props> = ({ user }) => {
           <Box
             fontSize={"18px"}
             component={NavLink}
-            to="#"
+            to="/compromise-identity"
             color={"inherit"}
             sx={BtnStyle}
           >
