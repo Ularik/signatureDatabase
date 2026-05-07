@@ -14,7 +14,7 @@ const SearchInput: React.FC<Props> = ({ searchFunc }) => {
   
     const search = () => {
       if (searchItem.trim() === "") return;
-      searchFunc({ key: 'current', item: searchItem});
+      searchFunc({ key: 'current', value: searchItem});
     };
     
     return (
@@ -79,6 +79,7 @@ const SearchInput: React.FC<Props> = ({ searchFunc }) => {
         </Grid>
         <Grid size={{ xs: 12, sm: 2 }}>
           <MainButton
+            onClick={search}
             text={"Поиск"}
             padding={{ xs: "8px", sm: "10px 36px" }}
             fonts={{ xs: "12px", sm: "16px" }}

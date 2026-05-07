@@ -11,11 +11,11 @@ const Home = () => {
   const ipv4Regex: RegExp = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
 
   const handleSearch = (params: SearchQueryParamsItems) => {
-    const item = params.item.toString();
-    if (ipv4Regex.test(item)) {
-      navigate(`/black-list-ip?ip_source=${item}`);
+    const value = params.value.toString();
+    if (ipv4Regex.test(value)) {
+      navigate(`/black-list-ip?ip_source=${value}`);
     } else {
-      navigate(`/black-list-url?url_source=${item}`);
+      navigate(`/black-list-url?url_source=${value}`);
     }
   }
     return (

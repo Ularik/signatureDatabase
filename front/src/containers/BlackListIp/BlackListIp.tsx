@@ -14,6 +14,7 @@ import GeneralPageLayot from "../../components/GeneralPage/GeneralPage";
 import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
 import { Box } from "@mui/material";
 import SearchInput from "../../components/SearchInput/SearchInput";
+import { useSearchParams } from "react-router";
 
 
 const iconsStyle = {
@@ -29,9 +30,9 @@ const arrowIconStyle = {
 };
 
 const searchFilters = [
-  { item: "страна", key: "country_source" },
-  { item: "ip-адресс", key: "ip_source" },
-  { item: "Год обнаружения", key: "attack_date" },
+  { value: "страна", key: "country_source" },
+  { value: "ip-адресс", key: "ip_source" },
+  { value: "Год обнаружения", key: "attack_date" },
 ];
 
 
@@ -41,41 +42,31 @@ const BlackListIp = () => {
   const total = useAppSelector(selectIpTotal);
   const limit = useAppSelector(selectIpLimit);
 
-  const localPage = localStorage.getItem("page");
-  const [page, setPage] = useState<number>(
-    localPage ? JSON.parse(localPage) : 1,
-  );
+  const [page, setPage] = useState<number>(1);
 
-  const paginationPage = (page: number) => {
-    setPage(page);
-    localStorage.setItem("page", JSON.stringify(page));
-  };
-
-  const [searchParams, setSearchParams] =
-    useState<SearchQueryParamsItems | null>(null);
+  const [searchParamsRouter, setSearchParamsRouter] = useSearchParams();
 
   const setSearch = (item: SearchQueryParamsItems) => {
-    if (item.key === 'current') {
-      setSearchParams({ ...item, key: "ip_source" });
-    } else {
-      setSearchParams(item);
-    }
-    setPage(1);
+    const params = new URLSearchParams(searchParamsRouter);
+
+    const key = item.key === "current" ? "ip_source" : item.key;
+    params.set(key, item.value);
+    params.set("page", "1");
+    setSearchParamsRouter(params);
   };
 
   useEffect(() => {
-    if (searchParams !== null) {
-      dispatch(
-        getIpList({
-          item: searchParams,
-          limit: limit,
-          offset: (page - 1) * limit,
-        }),
-      );
-    } else {
-      dispatch(getIpList({ limit: limit, offset: (page - 1) * limit }));
-    }
-  }, [dispatch, page, searchParams]);
+    let page = Number(searchParamsRouter.get("page"));
+    if (!page) page = 1
+    dispatch(
+      getIpList({
+        item: searchParamsRouter, 
+        limit: limit,
+        offset: (page - 1) * limit,
+      }),
+    );
+    setPage(page);
+  }, [dispatch, searchParamsRouter]);
 
   const titles = [
     <>
@@ -115,11 +106,10 @@ const BlackListIp = () => {
           total={total}
           limit={limit}
           page={page}
-          onChange={paginationPage}
         />
       }
     >
-      <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
+      <InputElement searchFilters={searchFilters} />
       <TableGeneral titles={titles} rows={rows} />
     </GeneralPageLayot>
   );

@@ -13,6 +13,10 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getCompromises } from "./store/compromiseThunks";
 import { selectCompromises, selectCompromisesTotal, selectCompromisesLimit } from "./store/compromiseSelectors";
 import GeneralPageLayot from "../../components/GeneralPage/GeneralPage";
+import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
+import { Box } from "@mui/material";
+import SearchInput from "../../components/SearchInput/SearchInput";
+import { useSearchParams } from "react-router";
 
 
 const arrowIconStyle = {
@@ -27,8 +31,8 @@ const iconsStyle = {
 };
 
 const searchFilters = [
-  { item: "поиск по cve", key: "cve" },
-  { item: "поиск по сигнатуре", key: "signature" },
+  { value: "поиск по cve", key: "cve" },
+  { value: "поиск по сигнатуре", key: "signature" },
 ];
 
 interface Props {
@@ -61,43 +65,38 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
     description: row.description,
   }));
 
-  const localPage = localStorage.getItem("page");
-  const [page, setPage] = useState<number>(
-    localPage ? JSON.parse(localPage) : 1,
-  );
-  const paginationPage = (page: number) => {
-    setPage(page);
-    localStorage.setItem("page", JSON.stringify(page));
-  };
+  const [page, setPage] = useState<number>(1);
 
-  const [searchParams, setSearchParams] =
-    useState<SearchQueryParamsItems | null>(null);
+  const [searchParamsRouter, setSearchParamsRouter] = useSearchParams();
 
   const setSearch = (item: SearchQueryParamsItems) => {
-    setSearchParams(item);
-    setPage(1);
+    const params = new URLSearchParams(searchParamsRouter);
+
+    const key = item.key === "current" ? "ip_source" : item.key;
+    params.set(key, item.value);
+    params.set("page", "1");
+    setSearchParamsRouter(params);
   };
 
   useEffect(() => {
     try {
-      if (user)
-        if (searchParams !== null) {
+      if (user) {
+        let page = Number(searchParamsRouter.get("page"));
+        if (!page) page = 1;
           dispatch(
-            getCompromises({
-              item: searchParams,
-              limit: limit,
-              offset: (page - 1) * limit,
-            }),
-          );
-        } else {
-          dispatch(
-            getCompromises({ limit: limit, offset: (page - 1) * limit }),
-          );
-        }
+          getCompromises({
+            item: searchParamsRouter,
+            limit: limit,
+            offset: (page - 1) * limit,
+          }),
+        )
+        setPage(page);
+      }
+
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch, page, user, searchParams]);
+  }, [dispatch, user, searchParamsRouter]);
 
   const titles = [
     <>
@@ -123,15 +122,21 @@ const CompromiseIdentity: React.FC<Props> = ({ user }) => {
         title="Идентификаторы компромитации"
         subtitle="Список вредоносных паттернов и индикаторов"
         pagination={
-          <PaginationCustom
-            total={total}
-            limit={limit}
-            page={page}
-            onChange={paginationPage}
-          />
+          <PaginationCustom total={total} limit={limit} page={page} />
+        }
+        topActions={
+          <>
+            <Box marginBottom={"20px"} display={{ xs: "block", sm: "none" }}>
+              <InfoCardsLinks />
+            </Box>
+
+            <Box display={{ xs: "block", sm: "none" }}>
+              <SearchInput searchFunc={setSearch} />
+            </Box>
+          </>
         }
       >
-        <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
+        <InputElement searchFilters={searchFilters} />
 
         {user ? (
           <TableGeneral onClick={openModal} titles={titles} rows={mappedRows} />

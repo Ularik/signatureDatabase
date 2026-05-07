@@ -9,13 +9,18 @@ import { isAxiosError } from "axios";
 
 export const getCompromises = createAsyncThunk<
   BlackListCompromiseData,
-  SearchFilters,
+  {item: URLSearchParams, limit: number, offset: number},
   { rejectValue: GlobalError }
 >(
   "compromises/getCompromises",
   async ({ item, limit, offset }, { rejectWithValue }) => {
-    let url = `/api/cti/threat-list?limit=${limit}&offset=${offset}`;
-    if (item) url += `&${item.key}=${item.item}`;
+    
+    let url = `/api/cti/black-list-ip?limit=${limit}&offset=${offset}`;
+    const queryString = item.toString();
+
+    if (queryString) {
+      url += `&${queryString}`;
+    }
     try {
       const res = await axiosApi.get<BlackListCompromiseData>(url);
       return res.data;

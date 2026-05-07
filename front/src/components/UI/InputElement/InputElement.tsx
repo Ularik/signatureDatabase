@@ -3,27 +3,33 @@ import { Box, Button } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Grow } from "@mui/material";
 import type { SearchQueryParamsItems } from "../../../types";
+import { useSearchParams } from "react-router";
 
 
 interface Props {
   searchFilters: SearchQueryParamsItems[];
-  searchFunc: (item: SearchQueryParamsItems) => void;
 }
 
-const InputElement: React.FC<Props> = ({ searchFilters, searchFunc }) => {
+const InputElement: React.FC<Props> = ({ searchFilters }) => {
+  
   const [isOpen, setIsOpen] = useState(false);
   const [searchItem, setSearchItem] = useState("");
 
   const [searchQueryParams, setSearchQueryParams] =
     useState<SearchQueryParamsItems>(searchFilters[0]);
 
+  const [searchParamsRouter, setSearchParamsRouter] = useSearchParams();
+
   const search = () => {
     if (searchItem.trim() === "") return;
-  
-    searchFunc({...searchQueryParams, item: searchItem});
+    const params = new URLSearchParams(searchParamsRouter);
+
+    params.set(searchQueryParams.key, searchItem);
+    params.set("page", "1");
+    setSearchParamsRouter(params);
   };
 
   const toggleMenu = (filter?: SearchQueryParamsItems) => {
@@ -90,18 +96,18 @@ const InputElement: React.FC<Props> = ({ searchFilters, searchFunc }) => {
                 flexDirection: "column",
               }}
             >
-              {searchFilters.map((value) => (
+              {searchFilters.map((item) => (
                 <Button
-                  onClick={() => toggleMenu(value)}
-                  key={value.key}
+                  onClick={() => toggleMenu(item)}
+                  key={item.key}
                   variant="text"
                   sx={{
                     color: "white",
                     background:
-                      searchQueryParams === value ? "#1B3373" : "inherit",
+                      searchQueryParams === item ? "#1B3373" : "inherit",
                   }}
                 >
-                  {value.item}
+                  {item.value}
                 </Button>
               ))}
             </Box>

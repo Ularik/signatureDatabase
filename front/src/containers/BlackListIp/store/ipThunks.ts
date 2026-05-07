@@ -10,13 +10,17 @@ import { isAxiosError } from "axios";
 
 export const getIpList = createAsyncThunk<
   BlackListIpData,
-  SearchFilters,
+  { item: URLSearchParams; limit: number; offset: number },
   { rejectValue: GlobalError }
 >("ip/getIpList", async ({ item, limit, offset }, { rejectWithValue }) => {
-
-  let url = `/api/cti/black-list-ip?limit=${limit}&offset=${offset}`;
-  if (item) url += `&${item.key}=${item.item}`;
   
+  let url = `/api/cti/black-list-ip?limit=${limit}&offset=${offset}`;
+  const queryString = item.toString();
+
+  if (queryString) {
+    url += `&${queryString}`;
+  }
+
   try {
     const res = await axiosApi.get<BlackListIpData>(url);
     return res.data;

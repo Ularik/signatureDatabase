@@ -14,6 +14,7 @@ import GeneralPageLayot from "../../components/GeneralPage/GeneralPage";
 import InfoCardsLinks from "../../components/UI/InfoCards/InfoCardsLinks/InfoCardsLinks";
 import { Box } from "@mui/material";
 import SearchInput from "../../components/SearchInput/SearchInput";
+import { useSearchParams } from "react-router";
 
 
 const iconsStyle = {
@@ -28,8 +29,8 @@ const arrowIconStyle = {
 };
 
 const searchFilters = [
-  { item: "url-адресс", key: "url_source" },
-  { item: "Дата обнаружения", key: "attack_date" },
+  { value: "url-адресс", key: "url_source" },
+  { value: "Дата обнаружения", key: "attack_date" },
 ];
 
 const BlackListUrl = () => {
@@ -41,35 +42,29 @@ const BlackListUrl = () => {
   const total = useAppSelector(selectUrlListTotal);
   const limit = useAppSelector(selectUrlLimit);
 
-  const paginationPage = (page: number) => {
-    setPage(page);
-  };
-
-  const [searchParams, setSearchParams] =
-    useState<SearchQueryParamsItems | null>(null);
+  const [searchParamsRouter, setSearchParamsRouter] = useSearchParams();
 
   const setSearch = (item: SearchQueryParamsItems) => {
-    if (item.key === "current") {
-      setSearchParams({ ...item, key: "url_source" });
-    } else {
-      setSearchParams(item);
-    }
-    setPage(1);
+    const params = new URLSearchParams(searchParamsRouter);
+
+    const key = item.key === "current" ? "ip_source" : item.key;
+    params.set(key, item.value);
+    params.set("page", "1");
+    setSearchParamsRouter(params);
   };
 
   useEffect(() => {
-    if (searchParams !== null) {
-      dispatch(
-        getUrlList({
-          item: searchParams,
-          limit: limit,
-          offset: (page - 1) * limit,
-        }),
-      );
-    } else {
-      dispatch(getUrlList({ limit: limit, offset: (page - 1) * limit }));
-    }
-  }, [dispatch, page, searchParams]);
+    let page = Number(searchParamsRouter.get("page"));
+    if (!page) page = 1;
+    dispatch(
+      getUrlList({
+        item: searchParamsRouter,
+        limit: limit,
+        offset: (page - 1) * limit,
+      }),
+    );
+    setPage(page);
+  }, [dispatch, searchParamsRouter]);
 
   const titles = [
     <>
@@ -116,11 +111,10 @@ const BlackListUrl = () => {
           total={total}
           limit={limit}
           page={page}
-          onChange={paginationPage}
         />
       }
     >
-      <InputElement searchFilters={searchFilters} searchFunc={setSearch} />
+      <InputElement searchFilters={searchFilters} />
       <TableGeneral titles={titles} rows={rows} />
     </GeneralPageLayot>
   );

@@ -1,21 +1,30 @@
 import { Box, Typography } from "@mui/material";
 import type React from "react";
 import DownloadIcon from "../Icons/DownloadIcon";
+import { useSearchParams } from "react-router";
 
 
 interface Props {
   total: number;
   limit: number;
   page: number;
-  onChange: (page: number) => void;
 }
 
 const fontsStyle = {
   fontSize: {xs: '12px', sm: '14px', md: "18px"},
 }
 
-const PaginationCustom: React.FC<Props> = ({ total, limit, page, onChange }) => {
+const PaginationCustom: React.FC<Props> = ({ total, limit, page }) => {
   const countPages = Math.ceil(total / limit);
+
+  const [searchParamsRouter, setSearchParamsRouter] = useSearchParams();
+
+  const onChange = (page: number) => {
+    const params = new URLSearchParams(searchParamsRouter);
+
+    params.set("page", String(page));
+    setSearchParamsRouter(params);
+  };
 
   // Вспомогательный компонент для отрисовки кружка страницы
   const PageCircle = ({ n }: { n: number }) => (

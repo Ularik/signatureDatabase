@@ -1,5 +1,5 @@
 export interface SearchQueryParamsItems {
-  item: string | number;
+  value: string;
   key: string;
 }
 
