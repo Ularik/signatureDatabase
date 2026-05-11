@@ -1,6 +1,5 @@
-import { Box, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 import { NavLink } from "react-router";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import MainButton from "../Buttons/MainButton";
 import { useState } from "react";
 import EnterWindow from "../../user/EnterWindow/EnterWindow";
@@ -48,19 +47,6 @@ const NavBar: React.FC<Props> = ({ user }) => {
           alignItems={"center"}
           gap={{ xs: "6px", lg: "30px" }}
         >
-          <IconButton
-            sx={{
-              padding: 0,
-              display: { lg: location.pathname !== "/" ? "none" : "block" },
-              justifySelf: { xs: "end" },
-              color: "white",
-              ml: "auto",
-            }}
-          >
-            <MenuRoundedIcon
-              sx={{ height: { xs: "27px", sm: "36px" }, width: "auto" }}
-            />
-          </IconButton>
           <Box
             fontSize={"18px"}
             component={NavLink}
